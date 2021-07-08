@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using NorthWindCoreLibrary.Classes.North.Classes;
 using NorthWindCoreLibrary.Data;
+using NorthWindCoreLibrary.Models;
 using NorthWindCoreLibrary.Projections;
 
 namespace NorthWindCoreLibrary.Classes
@@ -22,12 +24,11 @@ namespace NorthWindCoreLibrary.Classes
                     .ToListAsync();
             });
         }
-        //public static CustomerEntity CustomerByIdentifier(int identifier)
-        //{
-        //    using (var context = new NorthwindContext())
-        //    {
-        //        return context.Customers.Select(Customers.Projection).FirstOrDefault(custEntity => custEntity.CustomerIdentifier == identifier);
-        //    }
-        //}
+        public static CustomerEntity CustomerByIdentifier(int identifier)
+        {
+            using var context = new NorthwindContext();
+            return context.Customers.Select(Customers.Projection)
+                .FirstOrDefault(custEntity => custEntity.CustomerIdentifier == identifier);
+        }
     }
 }

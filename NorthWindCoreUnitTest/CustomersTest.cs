@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NorthWindCoreLibrary.Classes;
+using NorthWindCoreLibrary.Classes.North.Classes;
 using NorthWindCoreLibrary.Data;
 using NorthWindCoreUnitTest.Base;
 
@@ -41,8 +42,28 @@ namespace NorthWindCoreUnitTest
             Assert.IsTrue(firstName == "Maria");
         }
 
+        #region Positive and negative test
 
-      
+        [TestMethod]
+        [TestTraits(Trait.EfCoreCustomersSelect)]
+        public void SingleCustomerByIdentifierGood()
+        {
+            int customerIdentifier = 1;
+            CustomerEntity customer = CustomersOperations.CustomerByIdentifier(customerIdentifier);
+
+            Assert.IsNotNull(customer);
+            Assert.IsTrue(customer.CompanyName == "Alfreds Futterkiste");
+        }
+        [TestMethod]
+        [TestTraits(Trait.EfCoreCustomersSelect)]
+        public void SingleCustomerByIdentifierBad()
+        {
+            int customerIdentifier = 134;
+            CustomerEntity customer = CustomersOperations.CustomerByIdentifier(customerIdentifier);
+            Assert.IsNull(customer);
+        }
+
+        #endregion
 
         [TestMethod]
         public void GroupByEmployeeIdentifierGetHighCountInOrders()
