@@ -22,5 +22,12 @@ namespace NorthWindCoreLibrary.Classes
                     .ToListAsync();
             });
         }
+        //public static CustomerEntity CustomerByIdentifier(int identifier)
+        //{
+        //    using (var context = new NorthwindContext())
+        //    {
+        //        return context.Customers.Select(Customers.Projection).FirstOrDefault(custEntity => custEntity.CustomerIdentifier == identifier);
+        //    }
+        //}
     }
 }
