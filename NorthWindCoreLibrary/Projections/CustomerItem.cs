@@ -5,6 +5,9 @@ using NorthWindCoreLibrary.Models;
 
 namespace NorthWindCoreLibrary.Projections
 {
+    /// <summary>
+    /// A projection against a specific SELECT statement
+    /// </summary>
     public class CustomerItem
     {
         public int CustomerIdentifier { get; set; }

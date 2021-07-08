@@ -13,7 +13,7 @@ namespace NorthWindCoreUnitTest
         [TestInitialize]
         public void Initialization()
         {
-            if (TestContext.TestName == nameof(ReadCustomers))
+            if (TestContext.TestName == nameof(ReadCustomers) || TestContext.TestName == nameof(ReadCustomersWithJoins))
             {
                 SqlOperations.Server = ".\\SQLEXPRESS";
                 SqlOperations.Database = "NorthWind2020";
