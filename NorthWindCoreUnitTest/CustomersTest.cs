@@ -83,8 +83,6 @@ namespace NorthWindCoreUnitTest
             if (employee != default)
                 Debug.WriteLine("Value: {0} employeeid: {1}", employee.Count(), employee.Key);
 
-
-
         }
 
     }

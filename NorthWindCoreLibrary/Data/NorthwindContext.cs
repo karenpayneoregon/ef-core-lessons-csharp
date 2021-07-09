@@ -14,6 +14,13 @@ using NorthWindCoreLibrary.Models;
 
 namespace NorthWindCoreLibrary.Data
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <remarks>
+    /// Simple Logging
+    /// https://docs.microsoft.com/en-us/ef/core/logging-events-diagnostics/simple-logging
+    /// </remarks>
     public partial class NorthwindContext : DbContext
     {
         /// <summary>
