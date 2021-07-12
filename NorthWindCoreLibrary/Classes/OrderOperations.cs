@@ -78,6 +78,24 @@ namespace NorthWindCoreLibrary.Classes
         }
 
         #endregion
+
+        #region EmployeeMostOrders with using an expression body member to returning data
+
+        /// <summary>
+        /// From list of <see cref="Employees"/> get employee with the most orders
+        /// </summary>
+        /// <param name="employeesList">List of <see cref="Employees"/></param>
+        /// <returns><see cref="Employees"/> that has most orders</returns>
+        public static IGrouping<int, Employees> EmployeeMostOrdersExpression(List<Employees> employeesList) => employeesList
+                // group on EmployeeId
+                .GroupBy(employee => employee.EmployeeId)
+                // reverse order it on count
+                .OrderByDescending(groupEmployee => groupEmployee.Count())
+                // select the first
+                .FirstOrDefault();
+
+        #endregion
+
         /// <summary>
         /// From list of <see cref="Employees"/> get employee with the most orders
         /// </summary>
