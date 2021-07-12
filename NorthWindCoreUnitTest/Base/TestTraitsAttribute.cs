@@ -18,7 +18,8 @@ namespace NorthWindCoreUnitTest.Base
         /// <summary>
         /// Data provider
         /// </summary>
-        DataProviderCustomersSelect
+        DataProviderCustomersSelect,
+        GroupingEntityFramework
     }
     /// <summary>
     /// Declarative class for using Trait enum about for traits on test method.
