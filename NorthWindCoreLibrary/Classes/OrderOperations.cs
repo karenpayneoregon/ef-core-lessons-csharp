@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -111,6 +112,28 @@ namespace NorthWindCoreLibrary.Classes
                 .OrderByDescending(groupEmployee => groupEmployee.Count())
                 // select the first
                 .FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Here is a mirror image of the above which is done in lambda, this one done in LINQ
+        /// </summary>
+        /// <returns></returns>
+        public static async Task EmployeeMostOrders_Linq()
+        {
+            var employeeList = await GetEmployeesTask();
+
+            IOrderedEnumerable<IGrouping<int, Employees>> groupedResults =
+                from employees in employeeList
+                group employees by employees.EmployeeId
+                into grouped
+                orderby grouped.Count() descending 
+                select grouped;
+
+            IGrouping<int, Employees> singleGroupedEmployees = groupedResults.FirstOrDefault();
+            
+            // ReSharper disable once AssignNullToNotNullAttribute
+            Debug.WriteLine($"Order count:  {singleGroupedEmployees.Count()} employee id: {singleGroupedEmployees.Key}");
+
         }
     }
 }

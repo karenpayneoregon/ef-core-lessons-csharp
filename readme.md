@@ -21,3 +21,9 @@ Working with NorthWind database
 :heavy_check_mark: One property GroupBy
 
 :heavy_check_mark: Complex multiple property GroupBy with Projections
+
+## Notes
+
+- There are many different types of group-by operations to consider, here are a few.
+- The complex example is one that many developer struggle with which is why it's included.
+
