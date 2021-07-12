@@ -46,7 +46,7 @@ namespace NorthWindDataProviderLibrary.Classes
             }
             catch (Exception exception)
             {
-                return (true, exception, null);
+                return (false, exception, null);
             }
 
         }

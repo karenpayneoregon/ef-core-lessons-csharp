@@ -17,6 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		01_CreateNothWindSolution.docx = 01_CreateNothWindSolution.docx
 		02_InterfacesINotifyPropertyChanged.docx = 02_InterfacesINotifyPropertyChanged.docx
+		03_EF_ComplexGrouping.docx = 03_EF_ComplexGrouping.docx
 		03_EF_CoreLogging.docx = 03_EF_CoreLogging.docx
 		readme.md = readme.md
 	EndProjectSection

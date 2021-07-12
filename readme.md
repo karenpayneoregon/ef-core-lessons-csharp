@@ -4,36 +4,20 @@
 
 In this branch
 
-:heavy_check_mark: Added EF Core Logging
+:heavy_check_mark: Grouping data.
 
-When a LINQ/Lamdba query has issues, perhaps with the proper `join` or `runs slow` using logging can assist while in development mode.
+Grouping is one of the most powerful capabilities of LINQ. The following examples show how to group data in various ways:
 
-# Required NuGet packages
+- By a single property.
+- By the first letter of a string property.
+- By a computed numeric range.
+- By Boolean predicate or other expression.
+- By a compound key.
 
-- Microsoft.Extensions.Logging
-- Microsoft.Extensions.Logging.Debug
+## Lessons
 
-# Log options
+Working with NorthWind database
 
-These are common logging to the Debug window or file. They can be modified to what is shown in the logs such as parameter information or no parameter information.
+:heavy_check_mark: One property GroupBy
 
-**See**: Microsoft docs [Overview of Logging and Interception](https://docs.microsoft.com/en-us/ef/core/logging-events-diagnostics/)
-
-```csharp
-/// <summary>
-/// Log to file specified in <see cref="_logStream"/>
-/// </summary>
-/// <param name="optionsBuilder"></param>
-private void LogQueryInfoToFile(DbContextOptionsBuilder optionsBuilder)
-{
-    optionsBuilder.UseSqlServer(Helper.ConnectionString())
-        .EnableSensitiveDataLogging()
-        .LogTo(message => _logStream.WriteLine(message),
-            LogLevel.Information,
-            DbContextLoggerOptions.Category);
-}
-private static void NoLogging(DbContextOptionsBuilder optionsBuilder)
-{
-    optionsBuilder.UseSqlServer(Helper.ConnectionString());
-}
-```
+:heavy_check_mark: Complex multiple property GroupBy with Projections

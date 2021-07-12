@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -5,7 +7,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NorthWindCoreLibrary.Classes;
 using NorthWindCoreLibrary.Classes.North.Classes;
 using NorthWindCoreLibrary.Data;
+using NorthWindCoreLibrary.Models;
 using NorthWindCoreUnitTest.Base;
+using NorthWindCoreUnitTest.Classes;
 
 namespace NorthWindCoreUnitTest
 {
@@ -65,25 +69,6 @@ namespace NorthWindCoreUnitTest
 
         #endregion
 
-        [TestMethod]
-        public void GroupByEmployeeIdentifierGetHighCountInOrders()
-        {
-            using var context = new NorthwindContext();
-            var employeeList = context.Orders.Where(x => x.EmployeeId != null).Select(x => x.Employee).ToList();
-
-            var employee = employeeList
-                // group on EmployeeId
-                .GroupBy(e => e.EmployeeId)
-                // reverse order it on count
-                .OrderByDescending(g => g.Count())
-                // select the first
-                .FirstOrDefault();
-
-            // https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/default-values
-            if (employee != default)
-                Debug.WriteLine("Value: {0} employeeid: {1}", employee.Count(), employee.Key);
-
-        }
 
     }
 }

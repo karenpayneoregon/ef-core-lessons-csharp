@@ -77,6 +77,11 @@ namespace NorthWindCoreLibrary.Classes
             return productList;
         }
 
+        /// <summary>
+        /// Perform a group-by on two properties, CategoryName and ProductName
+        /// reusing <see cref="GetProductsWithProjection"/> for a base read 
+        /// </summary>
+        /// <returns></returns>
         public static async Task<List<Product>> GetProductsWithProjectionGroupByCategoryOrderedTask()
         {
             List<Product> productList = new();
@@ -99,13 +104,17 @@ namespace NorthWindCoreLibrary.Classes
                         CategoryId = product.FirstOrDefault().CategoryId,
                         ProductName = product.FirstOrDefault().ProductName,
                         SupplierName = products.FirstOrDefault().SupplierName
-                    }).OrderBy(x => x.CategoryId)
+                    })
+                    .OrderBy(product => product.CategoryId)
                     .ToList();
 
             });
 
             return productList;
         }
+
+        #region For testing - see comments
+
         /// <summary>
         /// Used to validate a test method and really belongs in the test class.
         /// </summary>
@@ -120,9 +129,11 @@ namespace NorthWindCoreLibrary.Classes
                 var json = File.ReadAllText(fileName);
                 products = JsonConvert.DeserializeObject<List<Product>>(json);
             }
-            
+
             return products;
         }
+
+        #endregion
 
     }
 }
