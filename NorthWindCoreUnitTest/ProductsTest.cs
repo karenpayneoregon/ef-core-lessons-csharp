@@ -50,6 +50,7 @@ namespace NorthWindCoreUnitTest
         }
 
         [TestMethod]
+        [TestTraits(Trait.EFCore_OrderByProducts)]
         public async Task OrderedByCategoryNameTask()
         {
             StringBuilder sb = new StringBuilder();

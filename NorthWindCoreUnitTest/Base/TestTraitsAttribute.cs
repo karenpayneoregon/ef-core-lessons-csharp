@@ -8,18 +8,13 @@ namespace NorthWindCoreUnitTest.Base
     public enum Trait
     {
         /// <summary>
-        /// Place holder 
-        /// </summary>
-        PlaceHolder,
-        /// <summary>
-        /// EF Core
-        /// </summary>
-        EfCoreCustomersSelect,
-        /// <summary>
         /// Data provider
         /// </summary>
         DataProviderCustomersSelect,
-        GroupingEntityFramework
+        EfCoreCustomersSelect,
+        GroupingEntityFramework,
+        EFCoreContactSelect,
+        EFCore_OrderByProducts
     }
     /// <summary>
     /// Declarative class for using Trait enum about for traits on test method.
