@@ -24,6 +24,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NorthWindDataProviderLibrary", "NorthWindDataProviderLibrary\NorthWindDataProviderLibrary.csproj", "{3D4FF002-2C1D-43C3-A0DF-19CC5592AB72}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Windows Forms", "Windows Forms", "{4E695151-906E-413B-99DA-DC40CAD4539A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SortingByStringPropertyName", "SortingByStringPropertyName\SortingByStringPropertyName.csproj", "{0750079F-2E07-4C6C-9A98-243CA6AAFFF5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +50,10 @@ Global
 		{3D4FF002-2C1D-43C3-A0DF-19CC5592AB72}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D4FF002-2C1D-43C3-A0DF-19CC5592AB72}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D4FF002-2C1D-43C3-A0DF-19CC5592AB72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0750079F-2E07-4C6C-9A98-243CA6AAFFF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0750079F-2E07-4C6C-9A98-243CA6AAFFF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0750079F-2E07-4C6C-9A98-243CA6AAFFF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0750079F-2E07-4C6C-9A98-243CA6AAFFF5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +63,7 @@ Global
 		{76826851-8A83-44E2-8A6D-7068E3C22DB7} = {FD2FD0A0-E891-4405-86A0-BDF6C4A1820D}
 		{2FB5FD70-C683-4CC0-86C4-1AE6CCEF24E8} = {D5F06049-0C09-4161-8549-6D9AF9645B20}
 		{3D4FF002-2C1D-43C3-A0DF-19CC5592AB72} = {FD2FD0A0-E891-4405-86A0-BDF6C4A1820D}
+		{0750079F-2E07-4C6C-9A98-243CA6AAFFF5} = {4E695151-906E-413B-99DA-DC40CAD4539A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D96E5810-19AD-469B-B57A-489EED3AA1D5}
