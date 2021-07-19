@@ -15,6 +15,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\ConfigurationHelper1\ConfigurationHelper1.csproj" />
 	  <ProjectReference Include="..\NorthWindCoreLibrary\NorthWindCoreLibrary.csproj" />
 	  <ProjectReference Include="..\NorthWindDataProviderLibrary\NorthWindDataProviderLibrary.csproj" />
 	</ItemGroup>

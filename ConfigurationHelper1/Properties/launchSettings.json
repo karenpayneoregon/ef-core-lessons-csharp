@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ConfigurationHelper1": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

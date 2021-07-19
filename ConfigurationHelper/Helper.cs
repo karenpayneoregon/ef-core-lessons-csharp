@@ -70,7 +70,7 @@ namespace ConfigurationHelper
         /// <returns>Instance of T</returns>
         public static T InitOptions<T>(string section) where T : new()
         {
-            var config = InitConfiguration();
+            IConfigurationRoot config = InitConfiguration();
             return config.GetSection(section).Get<T>();
         }
     }
