@@ -19,7 +19,7 @@ namespace NorthWindCoreUnitTest
     public class ConfigHelper1Test
     {
         /// <summary>
-        /// 
+        /// Test read connection string from environment variable
         /// </summary>
         [TestMethod]
         public void Tester1()
