@@ -27,3 +27,4 @@ Working with NorthWind database
 - There are many different types of group-by operations to consider, here are a few.
 - The complex example is one that many developer struggle with which is why it's included.
 
+:yellow_circle: Extra - DBContext connection via environment variable
