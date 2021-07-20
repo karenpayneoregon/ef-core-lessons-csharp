@@ -9,6 +9,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using ConfigurationHelper1.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NorthWindCoreUnitTest.Base;
 
 namespace NorthWindCoreUnitTest
 {
@@ -22,6 +23,7 @@ namespace NorthWindCoreUnitTest
         /// Test read connection string from environment variable
         /// </summary>
         [TestMethod]
+        [TestTraits(Trait.EFConfiguration)]
         public void Tester1()
         {
             using var context = new NorthContext();

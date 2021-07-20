@@ -14,7 +14,9 @@ namespace NorthWindCoreUnitTest.Base
         EfCoreCustomersSelect,
         GroupingEntityFramework,
         EFCoreContactSelect,
-        EFCore_OrderByProducts
+        EFCore_OrderByProducts,
+        EFConfiguration,
+        Warming
     }
     /// <summary>
     /// Declarative class for using Trait enum about for traits on test method.

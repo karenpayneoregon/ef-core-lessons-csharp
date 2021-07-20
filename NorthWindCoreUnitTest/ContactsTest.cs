@@ -51,6 +51,45 @@ namespace NorthWindCoreUnitTest
                 }
             }
         }
+
+        /// <summary>
+        /// Will run as the first test to warmup EF Core, expect 2 to 3 seconds.
+        /// Each call there after will be milliseconds
+        /// </summary>
+        [TestMethod]
+        [TestTraits(Trait.Warming)]
+        public void A_Warmup()
+        {
+            ContactOperations.Warmup();
+        }
+
+        /// <summary>
+        /// Code sample to get all contacts with their phone numbers where some
+        /// will have 3,2 or 1 phone number
+        /// </summary>
+        [TestMethod]
+        [TestTraits(Trait.EFCoreContactSelect)]
+        public void AllPhoneTest()
+        {
+            var contactsList = ContactOperations.Phones();
+            foreach (var contact in contactsList)
+            {
+                Console.WriteLine($"{contact.ContactId}, {contact.FirstName} {contact.LastName} {contact.ContactDevices.Count}");
+                foreach (var device in contact.ContactDevices)
+                {
+                    Console.WriteLine($"\t{device.PhoneTypeIdentifierNavigation.PhoneTypeDescription} - {device.PhoneNumber}");
+                }
+            }
+        }
+
+        [TestMethod]
+        [TestTraits(Trait.EFCoreContactSelect)]
+        public void SingleContactPhonesTest()
+        {
+            var contactIdentifier = 1;
+            var contactsList = ContactOperations.Phones(contactIdentifier);
+            Assert.IsTrue(contactsList.ContactDevices.Count == 3);
+        }
     }
 
 }

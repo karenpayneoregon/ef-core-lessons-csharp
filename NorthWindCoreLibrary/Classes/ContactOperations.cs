@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NorthWindCoreLibrary.Data;
+using NorthWindCoreLibrary.Models;
 using NorthWindCoreLibrary.Projections;
 
 namespace NorthWindCoreLibrary.Classes
@@ -44,6 +45,39 @@ namespace NorthWindCoreLibrary.Classes
                 .OrderBy(contactItem => contactItem.FirstOrDefault().ContactTitle)
                 .ToList();
 
+        }
+
+        /// <summary>
+        /// Code sample which obtains all phone numbers for each contact
+        /// </summary>
+        /// <returns></returns>
+        public static List<Contacts> Phones()
+        {
+            using var context = new NorthwindContext();
+            
+            List<Contacts> results = context.Contacts
+                .Include(x => x.ContactDevices)
+                .ThenInclude(x => x.PhoneTypeIdentifierNavigation)
+                .ToList();
+            
+            return results;
+        }
+        public static Contacts Phones(int identifier)
+        {
+            using var context = new NorthwindContext();
+
+            Contacts results = context.Contacts
+                .Include(x => x.ContactDevices)
+                .ThenInclude(x => x.PhoneTypeIdentifierNavigation)
+                .FirstOrDefault();
+
+            return results;
+        }
+
+        public static void Warmup()
+        {
+            using var context = new NorthwindContext();
+            var results = context.Contacts.Count();
         }
     }
 }
