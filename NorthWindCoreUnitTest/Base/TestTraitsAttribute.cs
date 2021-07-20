@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NorthWindCoreLibrary.Models;
 
 namespace NorthWindCoreUnitTest.Base
 {
@@ -11,11 +12,26 @@ namespace NorthWindCoreUnitTest.Base
         /// Data provider
         /// </summary>
         DataProviderCustomersSelect,
+        /// <summary>
+        /// EF Core select operations
+        /// </summary>
         EfCoreCustomersSelect,
+        /// <summary>
+        /// EF Core projections
+        /// </summary>
         GroupingEntityFramework,
+        /// <summary>
+        /// EF Core select operations for <see cref="Contacts"/>
+        /// </summary>        
         EFCoreContactSelect,
         EFCore_OrderByProducts,
+        /// <summary>
+        /// Configuring EF Core for multiple environments
+        /// </summary>
         EFConfiguration,
+        /// <summary>
+        /// Used to simulate warming up EF Core
+        /// </summary>
         Warming
     }
     /// <summary>
