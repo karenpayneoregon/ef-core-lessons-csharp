@@ -1,11 +1,13 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using NorthWindCoreLibrary.Classes.Helpers;
 using NorthWindCoreLibrary.Classes.North.Classes;
 using NorthWindCoreLibrary.Data;
@@ -37,11 +39,12 @@ namespace NorthWindCoreUnitTest_InMemory
         public void Initialization()
         {
             Context = new NorthwindContext(dbContextOptions);
+            
             annihilationList = new List<object>();
 
-            if (TestContext.TestName == nameof(CreateJsonFilesTask))
+            if (TestContext.TestName == nameof(LoadingRelations))
             {
-                // TODO
+                LoadJoinedData();
             }
         }
 
@@ -81,8 +84,10 @@ namespace NorthWindCoreUnitTest_InMemory
                 Contacts = new List<Contacts>() { new()
                 {
                     ContactId = 1, 
-                    ContactTypeIdentifier = 1
-                } }
+                    ContactTypeIdentifier = 1,
+                    FirstName = "Bernardo",
+                    LastName = "Batista"
+                } },
             },
             ContactDevices = new List<ContactDevices>()
         };
@@ -93,6 +98,7 @@ namespace NorthWindCoreUnitTest_InMemory
         private static readonly string contactTypeJsonFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Json", "ContactType.json");
         private static readonly string contactsJsonFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Json", "Contacts.json");
         private static readonly string countriesJsonFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Json", "Countries.json");
+        private static readonly string contactDevicesJsonFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Json", "ContactDevices.json");
 
         public static async Task SerializeModelsToJson()
         {
@@ -111,6 +117,8 @@ namespace NorthWindCoreUnitTest_InMemory
             List<Countries> countriesList = context.Countries.ToList();
             await File.WriteAllTextAsync(countriesJsonFileName, JsonHelpers.Serialize<Countries>(countriesList));
 
+            List<ContactDevices> contactDeviceList = context.ContactDevices.ToList();
+            await File.WriteAllTextAsync(contactDevicesJsonFileName, JsonHelpers.Serialize<ContactDevices>(contactDeviceList));
         }
 
         public static async Task<List<CustomerEntity>> AllCustomersToJsonAsync()
@@ -128,6 +136,37 @@ namespace NorthWindCoreUnitTest_InMemory
             });
 
         }
+        private static List<Customers> CustomersRelationsData(
+            out List<ContactType> contactTypeList, 
+            out List<Contacts> contactList, 
+            out List<Countries> countriesList, 
+            out List<ContactDevices> contactDevicesList)
+        {
+            List<Customers> customersList = JsonConvert.DeserializeObject<List<Customers>>(File.ReadAllText(customersJsonFileName));
+            contactTypeList = JsonConvert.DeserializeObject<List<ContactType>>(File.ReadAllText(contactTypeJsonFileName));
+            contactList = JsonConvert.DeserializeObject<List<Contacts>>(File.ReadAllText(contactsJsonFileName));
+            countriesList = JsonConvert.DeserializeObject<List<Countries>>(File.ReadAllText(countriesJsonFileName));
+            contactDevicesList = JsonConvert.DeserializeObject<List<ContactDevices>>(File.ReadAllText(contactDevicesJsonFileName));
+
+
+            return customersList;
+        }
+
+        public void LoadJoinedData()
+        {
+            Context = new NorthwindContext(dbContextOptions);
+
+            
+            var customersList = CustomersRelationsData(out var contactTypeList, out var contactList, out var countriesList, out var contactDevicesList);
+
+            Context.Customers.AddRange(customersList!);
+            Context.ContactType.AddRange(contactTypeList!);
+            Context.Contacts.AddRange(contactList!);
+            Context.Countries.AddRange(countriesList!);
+            Context.ContactDevices.AddRange(contactDevicesList);
+            var count = Context.SaveChanges();
+            var tep = Context;
+        }
 
         #endregion
 
@@ -139,7 +178,6 @@ namespace NorthWindCoreUnitTest_InMemory
 
             return sandboxEntity;
         }
-        protected IEnumerable<T> GetSandboxEntities<T>() => 
-            (annihilationList.Where(item => item.GetType() == typeof(T)).Select(item => (T)item));
+        protected IEnumerable<T> GetSandboxEntities<T>() => (annihilationList.Where(item => item.GetType() == typeof(T)).Select(item => (T)item));
     }
 }

@@ -31,7 +31,6 @@ namespace NorthWindCoreUnitTest
         {
             using var context = new NorthwindContext();
             var contacts = context.Contacts.Select(ContactItem.Projection).ToList();
-            Console.WriteLine();
         }
 
         [TestMethod]

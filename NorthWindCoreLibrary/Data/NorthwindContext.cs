@@ -32,12 +32,16 @@ namespace NorthWindCoreLibrary.Data
         
         public NorthwindContext()
         {
+            
             try
             {
                 _logStream = new("logging.txt", append: true);
             }
-            catch (Exception e)
+            catch (Exception exception)
             {
+#if DEBUG
+                Debug.WriteLine(exception.Message);
+#endif
 
             }
         }
@@ -69,11 +73,15 @@ namespace NorthWindCoreLibrary.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
+                // how we normally do a connection with scaffolding 
                 //optionsBuilder.UseSqlServer("Data Source=.\\SQLEXPRESS;Initial Catalog=NorthWind2020;Integrated Security=True");
+                
                 optionsBuilder.UseSqlServer(Helper.ConnectionString());
+                
                 //optionsBuilder.UseLazyLoadingProxies().UseSqlServer(Helper.ConnectionString());
 
                 //LogQueryInfoToFile(optionsBuilder);
+                //LogQueryInfoToDebugOutputWindow(optionsBuilder);
             }
         }
         /// <summary>

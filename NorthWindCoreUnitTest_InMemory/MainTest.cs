@@ -1,9 +1,13 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NorthWindCoreLibrary.Models;
 using NorthWindCoreUnitTest_InMemory.Base;
+using NorthWindCoreUnitTest_InMemory.DataProvider;
 
 namespace NorthWindCoreUnitTest_InMemory
 {
@@ -17,7 +21,7 @@ namespace NorthWindCoreUnitTest_InMemory
         /// </summary>
         /// <returns></returns>
         [TestMethod]
-        [Ignore]
+        //[Ignore]
         [TestTraits(Trait.JsonGeneration)]
         public async Task CreateJsonFilesTask()
         {
@@ -37,7 +41,8 @@ namespace NorthWindCoreUnitTest_InMemory
             {
                 CompanyName = "Karen's coffee shop",
                 Contact = SingleContact,
-                CountryIdentifier = 20
+                CountryIdentifier = 20, 
+                CountryIdentifierNavigation = new Countries() { Name = "USA" }
             };
 
             Context.Entry(customer).State = EntityState.Added;
@@ -48,5 +53,28 @@ namespace NorthWindCoreUnitTest_InMemory
                 "Expect one customer and one contact to be added.");
 
         }
+
+        [TestMethod]
+        public void LoadingRelations()
+        {
+            int customerIdentifier = 3;
+            
+            var singleCustomer = Context.Customers
+                .Include(customer => customer.CountryIdentifierNavigation)
+                .Include(customer => customer.Contact)
+                .ThenInclude(x => x.ContactDevices)
+                .FirstOrDefault(customer => customer.CustomerIdentifier == customerIdentifier);
+
+            Assert.AreEqual(singleCustomer.CompanyName, "Antonio Moreno Taquería");
+            Assert.AreEqual(singleCustomer.CountryIdentifierNavigation.Name, "Mexico");
+            Assert.AreEqual(singleCustomer.Contact.FirstName, "Antonio");
+            Assert.AreEqual(singleCustomer.Contact.LastName, "Moreno");
+            Assert.AreEqual(singleCustomer.Contact.ContactDevices.FirstOrDefault().PhoneNumber, "(171) 555-7788");
+
+            SqlOperations.GetCustomers(customerIdentifier);
+           
+
+        }
+
     }
 }
