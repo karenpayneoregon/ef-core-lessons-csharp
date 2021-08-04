@@ -21,7 +21,7 @@ namespace NorthWindCoreUnitTest_InMemory
         /// </summary>
         /// <returns></returns>
         [TestMethod]
-        //[Ignore]
+        [Ignore]
         [TestTraits(Trait.JsonGeneration)]
         public async Task CreateJsonFilesTask()
         {
@@ -59,20 +59,20 @@ namespace NorthWindCoreUnitTest_InMemory
         {
             int customerIdentifier = 3;
             
+            var expected = SqlOperations.GetCustomers(customerIdentifier);
+            
+
             var singleCustomer = Context.Customers
                 .Include(customer => customer.CountryIdentifierNavigation)
                 .Include(customer => customer.Contact)
                 .ThenInclude(x => x.ContactDevices)
                 .FirstOrDefault(customer => customer.CustomerIdentifier == customerIdentifier);
 
-            Assert.AreEqual(singleCustomer.CompanyName, "Antonio Moreno Taquería");
-            Assert.AreEqual(singleCustomer.CountryIdentifierNavigation.Name, "Mexico");
-            Assert.AreEqual(singleCustomer.Contact.FirstName, "Antonio");
-            Assert.AreEqual(singleCustomer.Contact.LastName, "Moreno");
-            Assert.AreEqual(singleCustomer.Contact.ContactDevices.FirstOrDefault().PhoneNumber, "(171) 555-7788");
-
-            SqlOperations.GetCustomers(customerIdentifier);
-           
+            Assert.AreEqual(singleCustomer.CompanyName, expected.CompanyName);
+            Assert.AreEqual(singleCustomer.CountryIdentifierNavigation.Name, expected.Country);
+            Assert.AreEqual(singleCustomer.Contact.FirstName, expected.FirstName);
+            Assert.AreEqual(singleCustomer.Contact.LastName, expected.LastName);
+            Assert.AreEqual(singleCustomer.Contact.ContactDevices.FirstOrDefault().PhoneNumber, expected.ContactPhoneNumber);
 
         }
 
