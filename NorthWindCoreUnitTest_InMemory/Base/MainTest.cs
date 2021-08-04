@@ -132,25 +132,13 @@ namespace NorthWindCoreUnitTest_InMemory
         #endregion
 
         protected List<object> annihilationList;
-        /// <summary>
-        /// TODO
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="sandboxEntity"></param>
-        /// <returns></returns>
+
         protected T AddSandboxEntity<T>(T sandboxEntity) where T : class
         {
             annihilationList.Add(sandboxEntity);
 
             return sandboxEntity;
-
         }
-
-        /// <summary>
-        /// Gets all objects of the given type that exist in the annihilateList.
-        /// </summary>
-        /// <typeparam name="T">The type of objects to return</typeparam>
-        /// <returns></returns>
         protected IEnumerable<T> GetSandboxEntities<T>() => 
             (annihilationList.Where(item => item.GetType() == typeof(T)).Select(item => (T)item));
     }

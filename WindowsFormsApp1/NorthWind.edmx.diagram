@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d5a9ff6393a34b92b3b32bbb0f975959" Name="Diagram1" ZoomLevel="74">
+        <EntityTypeShape EntityType="NorthWind2020Model.BusinessEntityPhone" Width="1.5" PointX="7" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="NorthWind2020Model.Category" Width="1.5" PointX="10.375" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="NorthWind2020Model.ContactDevice" Width="1.5" PointX="5.5" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="NorthWind2020Model.Contact" Width="1.5" PointX="3" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="NorthWind2020Model.ContactType" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="NorthWind2020Model.Country" Width="1.5" PointX="0.5" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="NorthWind2020Model.Customer" Width="1.5" PointX="8.25" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="NorthWind2020Model.Employee" Width="1.5" PointX="3" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="NorthWind2020Model.OrderDetail" Width="1.5" PointX="12.625" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="NorthWind2020Model.Order" Width="1.5" PointX="10.5" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="NorthWind2020Model.PhoneType" Width="1.5" PointX="1.5" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="NorthWind2020Model.Product" Width="1.5" PointX="12.25" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="NorthWind2020Model.Region" Width="1.5" PointX="10.375" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="NorthWind2020Model.Shipper" Width="1.5" PointX="8.75" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="NorthWind2020Model.Supplier" Width="1.5" PointX="4.25" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="NorthWind2020Model.Territory" Width="1.5" PointX="5" PointY="0.875" IsExpanded="true" />
+        <AssociationConnector Association="NorthWind2020Model.FK_Products_Categories" ManuallyRouted="false" />
+        <AssociationConnector Association="NorthWind2020Model.FK_ContactDevices_Contacts1" ManuallyRouted="false" />
+        <AssociationConnector Association="NorthWind2020Model.FK_ContactDevices_PhoneType" ManuallyRouted="false" />
+        <AssociationConnector Association="NorthWind2020Model.FK_Contacts_ContactType" ManuallyRouted="false" />
+        <AssociationConnector Association="NorthWind2020Model.FK_Customers_Contacts" ManuallyRouted="false" />
+        <AssociationConnector Association="NorthWind2020Model.FK_Customers_ContactType" ManuallyRouted="false" />
+        <AssociationConnector Association="NorthWind2020Model.FK_Employees_ContactType" ManuallyRouted="false" />
+        <AssociationConnector Association="NorthWind2020Model.FK_Customers_Countries" ManuallyRouted="false" />
+        <AssociationConnector Association="NorthWind2020Model.FK_Employees_Countries" ManuallyRouted="false" />
+        <AssociationConnector Association="NorthWind2020Model.FK_Suppliers_Countries" ManuallyRouted="false" />
+        <AssociationConnector Association="NorthWind2020Model.FK_Orders_Customers2" ManuallyRouted="false" />
+        <AssociationConnector Association="NorthWind2020Model.FK_Orders_Employees" ManuallyRouted="false" />
+        <AssociationConnector Association="NorthWind2020Model.FK_Order_Details_Orders" ManuallyRouted="false" />
+        <AssociationConnector Association="NorthWind2020Model.FK_Order_Details_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="NorthWind2020Model.FK_Orders_Shippers" ManuallyRouted="false" />
+        <AssociationConnector Association="NorthWind2020Model.FK_Products_Suppliers" ManuallyRouted="false" />
+        <AssociationConnector Association="NorthWind2020Model.FK_Territories_Region" ManuallyRouted="false" />
+        <AssociationConnector Association="NorthWind2020Model.EmployeeTerritories" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
