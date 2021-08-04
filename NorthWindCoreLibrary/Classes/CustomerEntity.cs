@@ -29,6 +29,7 @@ namespace NorthWindCoreLibrary.Classes
             private string _countyName;
             private Contacts _contacts;
 
+            [JsonIgnore]
             public int CustomerIdentifier
             {
                 get => _customerIdentifier;
@@ -166,6 +167,8 @@ namespace NorthWindCoreLibrary.Classes
 
             public int? ContactId { get; set; }
             public Countries CountryNavigation { get; set; }
+
+            public virtual Contacts ContactIdentifierNavigation { get; set; }
 
             public override string ToString()
             {

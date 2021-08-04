@@ -11,6 +11,8 @@ namespace NorthWindCoreUnitTest_InMemory.Base
         /// Place holder 
         /// </summary>
         PlaceHolder,
+        JsonGeneration,
+        InMemoryTesting_CRUD,
     }
     /// <summary>
     /// Declarative class for using Trait enum about for traits on test method.
