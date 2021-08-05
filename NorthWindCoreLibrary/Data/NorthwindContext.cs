@@ -67,6 +67,11 @@ namespace NorthWindCoreLibrary.Data
         public virtual DbSet<Suppliers> Suppliers { get; set; }
         public virtual DbSet<Territories> Territories { get; set; }
 
+        /// <summary>
+        /// Provides options for logging
+        /// https://docs.microsoft.com/en-us/ef/core/logging-events-diagnostics/simple-logging
+        /// </summary>
+        /// <param name="optionsBuilder"></param>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)

@@ -42,10 +42,9 @@ namespace NorthWindCoreUnitTest_InMemory
             
             annihilationList = new List<object>();
 
-            if (TestContext.TestName == nameof(LoadingRelations) || TestContext.TestName == nameof(CustomerCustomSort_City))
-            {
-                LoadJoinedData();
-            }
+            if (TestContext.TestName == nameof(LoadingRelations) || 
+                TestContext.TestName == nameof(CustomerCustomSort_City) || 
+                TestContext.TestName == nameof(GetQueryString)) { LoadJoinedData(); }
         }
 
         /// <summary>

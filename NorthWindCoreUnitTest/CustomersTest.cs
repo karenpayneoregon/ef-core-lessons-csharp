@@ -44,6 +44,7 @@ namespace NorthWindCoreUnitTest
                 .FirstOrDefault(cust => cust.FirstName == "Maria").FirstName;
             
             Assert.IsTrue(firstName == "Maria");
+            
         }
 
         #region Positive and negative test
@@ -68,6 +69,7 @@ namespace NorthWindCoreUnitTest
         }
 
         #endregion
+
 
 
     }

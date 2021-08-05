@@ -10,6 +10,7 @@ using NorthWindCoreLibrary.Data;
 using NorthWindCoreLibrary.Models;
 using NorthWindCoreLibrary.Projections;
 
+
 namespace NorthWindCoreLibrary.Classes
 {
     public class CustomersOperations
