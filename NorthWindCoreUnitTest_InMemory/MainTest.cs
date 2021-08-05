@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FluentValidation.TestHelper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
@@ -14,6 +15,7 @@ using NorthWindCoreLibrary.LanguageExtensions;
 using NorthWindCoreLibrary.Models;
 using NorthWindCoreUnitTest_InMemory.Base;
 using NorthWindCoreUnitTest_InMemory.DataProvider;
+using NorthWindCoreUnitTest_InMemory.ValidationClasses;
 
 namespace NorthWindCoreUnitTest_InMemory
 {
@@ -235,7 +237,37 @@ namespace NorthWindCoreUnitTest_InMemory
 
         #endregion
 
+        #region Basic fluent validation 
 
+        /// <summary>
+        /// No Assert required, on failure an exception is thrown
+        /// </summary>
+        [TestMethod]
+        public void ValidateCompanyNameIsNull()
+        {
+
+            var singleCustomers = new Customers() { CompanyName = null };
+            TestValidationResult<Customers> result = customersValidator.TestValidate(singleCustomers);
+            result.ShouldHaveValidationErrorFor(customer => customer.CompanyName);
+
+        }
+
+        /// <summary>
+        /// No Assert required, on failure an exception is thrown
+        /// </summary>
+        [TestMethod]
+        public void ValidateCompanyNameIsNotNull()
+        {
+
+            var singleCustomer = MockedInMemoryCustomers().FirstOrDefault();
+
+            TestValidationResult<Customers> result = customersValidator.TestValidate(singleCustomer);
+
+            result.ShouldNotHaveAnyValidationErrors();
+
+        }
+
+        #endregion
 
 
     }

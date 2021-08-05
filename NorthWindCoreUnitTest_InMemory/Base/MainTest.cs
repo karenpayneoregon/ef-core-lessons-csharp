@@ -12,6 +12,7 @@ using NorthWindCoreLibrary.Classes.Helpers;
 using NorthWindCoreLibrary.Classes.North.Classes;
 using NorthWindCoreLibrary.Data;
 using NorthWindCoreLibrary.Models;
+using NorthWindCoreUnitTest_InMemory.ValidationClasses;
 
 
 // ReSharper disable once CheckNamespace - do not change
@@ -34,6 +35,8 @@ namespace NorthWindCoreUnitTest_InMemory
             .UseInMemoryDatabase(databaseName: "Remove_Customer_to_database")
             .Options;
 
+        private CustomersValidator customersValidator;
+
         /// <summary>
         /// Single instance of the <see cref="NorthwindContext"/> for in-memory context
         /// </summary>
@@ -53,6 +56,12 @@ namespace NorthWindCoreUnitTest_InMemory
                 TestContext.TestName == nameof(FindByPrimaryKey) ||
                 TestContext.TestName == nameof(CustomerCustomSort_City) || 
                 TestContext.TestName == nameof(GetQueryString)) { LoadJoinedData(); }
+
+            if (TestContext.TestName == nameof(ValidateCompanyNameIsNull) || 
+                TestContext.TestName == nameof(ValidateCompanyNameIsNotNull))
+            {
+                customersValidator = new CustomersValidator();
+            }
         }
 
         /// <summary>
