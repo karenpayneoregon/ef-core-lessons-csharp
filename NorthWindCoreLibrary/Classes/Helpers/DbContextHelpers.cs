@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -34,5 +35,10 @@ namespace NorthWindCoreLibrary.Classes.Helpers
             await context.Database.CloseConnectionAsync();
             await context.Database.OpenConnectionAsync();
         }
+        public static async Task<bool> TestConnectionTask(this DbContext context)
+            => await Task.Run(async () => await context.Database.CanConnectAsync());
+
+        public static async Task<bool> TestConnectionTask(this DbContext context, CancellationToken token)
+            => await Task.Run(async () => await context.Database.CanConnectAsync(token), token);
     }
 }

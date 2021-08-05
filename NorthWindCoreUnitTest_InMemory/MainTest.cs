@@ -59,6 +59,7 @@ namespace NorthWindCoreUnitTest_InMemory
         }
 
         [TestMethod]
+        [TestTraits(Trait.InMemoryTesting_Relations)]
         public void LoadingRelations()
         {
             int customerIdentifier = 3;
@@ -83,6 +84,7 @@ namespace NorthWindCoreUnitTest_InMemory
         }
 
         [TestMethod]
+        [TestTraits(Trait.InMemoryTesting_CustomSorting)]
         public void CustomerCustomSort_City()
         {
             
@@ -92,7 +94,8 @@ namespace NorthWindCoreUnitTest_InMemory
                 .Include(customer => customer.Contact)
                 .ThenInclude(contact => contact.ContactDevices)
                 .ThenInclude(x => x.PhoneTypeIdentifierNavigation)
-                .ToList().SortByPropertyName("CompanyName", SortDirection.Descending);
+                .ToList()
+                .SortByPropertyName("CompanyName", SortDirection.Descending);
 
             Assert.IsTrue(customersList.FirstOrDefault().City == "Warszawa");
             Assert.IsTrue(customersList.LastOrDefault().City == "Berlin");
@@ -116,6 +119,7 @@ namespace NorthWindCoreUnitTest_InMemory
         ///  - ToQueryString is new, there may be some spots where it does not work as intend
         /// </summary>
         [TestMethod]
+        [TestTraits(Trait.Utility)]
         public void GetQueryString()
         {
             using var context = new NorthwindContext();

@@ -17,3 +17,5 @@ if not exist $(TargetDir)\Json mkdir $(TargetDir)\Json
 ```
 
 This ensures a folder named Json exists in the folder where binaries are located for placing Json files into for generating Json from models.
+
+Since the files in the Json folder are under source control when cloning this solution they will be downloaded.
