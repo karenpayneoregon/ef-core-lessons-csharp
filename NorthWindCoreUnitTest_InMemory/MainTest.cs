@@ -110,6 +110,10 @@ namespace NorthWindCoreUnitTest_InMemory
         ///
         /// So ToQueryString is something to use one a LINQ statement is not providing proper results which can
         /// happen with improper joins and/or a bad database design.
+        ///
+        /// Notes
+        ///  - ToQueryString works without actually making a call to a database
+        ///  - ToQueryString is new, there may be some spots where it does not work as intend
         /// </summary>
         [TestMethod]
         public void GetQueryString()
