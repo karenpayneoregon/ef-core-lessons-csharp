@@ -62,7 +62,10 @@ namespace NorthWindCoreUnitTest_InMemory
                 "Expect one customer and one contact to be added.");
 
         }
-
+        /// <summary>
+        ///
+        ///
+        /// </summary>
         [TestMethod]
         [TestTraits(Trait.Relations)]
         public void LoadingRelations()
@@ -71,11 +74,11 @@ namespace NorthWindCoreUnitTest_InMemory
             
             var expected = SqlOperations.GetCustomers(customerIdentifier);
             
-
+            /*
+             * Note 
+             */
             var singleCustomer = Context.Customers
-                .Include(customer => customer.CountryIdentifierNavigation)
-                .Include(customer => customer.Contact)
-                .ThenInclude(contact => contact.ContactDevices)
+                .IncludeContactsCountryDevices()
                 .FirstOrDefault(customer => customer.CustomerIdentifier == customerIdentifier);
 
             // ReSharper disable once PossibleNullReferenceException
