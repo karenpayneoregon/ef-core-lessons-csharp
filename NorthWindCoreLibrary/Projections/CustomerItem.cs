@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
+using NorthWindCoreLibrary.LanguageExtensions;
 using NorthWindCoreLibrary.Models;
 
 namespace NorthWindCoreLibrary.Projections
@@ -26,6 +27,10 @@ namespace NorthWindCoreLibrary.Projections
         public string ContactTitle { get; set; }
         public string OfficePhoneNumber { get; set; }
         public int PhoneTypeIdentifier { get; set; }
+        /// <summary>
+        /// Example for showing how to format a date time were the intent is to show the value only
+        /// </summary>
+        public string LastChanged { get; set; }
         public override string ToString() => CompanyName;
 
         public static Expression<Func<Customers, CustomerItem>> Projection
@@ -45,7 +50,8 @@ namespace NorthWindCoreLibrary.Projections
                     ContactTypeIdentifier = customers.CountryIdentifier,
                     OfficePhoneNumber = customers.Contact.ContactDevices
                             // hard coded to a specific phone type for office
-                        .FirstOrDefault(contactDevices => contactDevices.PhoneTypeIdentifier == 3).PhoneNumber
+                        .FirstOrDefault(contactDevices => contactDevices.PhoneTypeIdentifier == 3).PhoneNumber,
+                    LastChanged = customers.ModifiedDate.Value.ZeroPad()
                 };
             }
         }
