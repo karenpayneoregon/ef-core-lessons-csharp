@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
@@ -68,11 +69,15 @@ namespace NorthWindCoreUnitTest_InMemory
                 .ThenInclude(x => x.ContactDevices)
                 .FirstOrDefault(customer => customer.CustomerIdentifier == customerIdentifier);
 
+            // ReSharper disable once PossibleNullReferenceException
             Assert.AreEqual(singleCustomer.CompanyName, expected.CompanyName);
             Assert.AreEqual(singleCustomer.CountryIdentifierNavigation.Name, expected.Country);
             Assert.AreEqual(singleCustomer.Contact.FirstName, expected.FirstName);
             Assert.AreEqual(singleCustomer.Contact.LastName, expected.LastName);
-            Assert.AreEqual(singleCustomer.Contact.ContactDevices.FirstOrDefault().PhoneNumber, expected.ContactPhoneNumber);
+            
+            Assert.AreEqual(singleCustomer.Contact.ContactDevices.FirstOrDefault().ContactPhoneNumber, 
+                expected.ContactPhoneNumber);
+
 
         }
 

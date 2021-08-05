@@ -45,7 +45,7 @@ namespace NorthWindCoreLibrary.Projections
                     ContactTypeIdentifier = customers.CountryIdentifier,
                     OfficePhoneNumber = customers.Contact.ContactDevices
                             // hard coded to a specific phone type for office
-                        .FirstOrDefault(contactDevices => contactDevices.PhoneTypeIdentifier == 3).PhoneNumber
+                        .FirstOrDefault(contactDevices => contactDevices.PhoneTypeIdentifier == 3).ContactPhoneNumber
                 };
             }
         }
