@@ -22,13 +22,17 @@ namespace NorthWindCoreUnitTest_InMemory
         /// <summary>
         /// Options for in-memory testing
         /// </summary>
-        readonly DbContextOptions<NorthwindContext> dbContextOptions = new DbContextOptionsBuilder<NorthwindContext>()
+        readonly DbContextOptions<NorthwindContext> dbContextStandardOptions = new DbContextOptionsBuilder<NorthwindContext>()
             .UseInMemoryDatabase(Guid.NewGuid().ToString())
             .EnableSensitiveDataLogging()
             .Options;
 
+        readonly DbContextOptions<NorthwindContext> dbContextRemoveOptions =  new DbContextOptionsBuilder<NorthwindContext>()
+            .UseInMemoryDatabase(databaseName: "Remove_Customer_to_database")
+            .Options;
+
         /// <summary>
-        /// Single instance of the <see cref="NorthWindContext"/> for in-memory context
+        /// Single instance of the <see cref="NorthwindContext"/> for in-memory context
         /// </summary>
         private NorthwindContext Context;
 
@@ -38,7 +42,7 @@ namespace NorthWindCoreUnitTest_InMemory
         [TestInitialize]
         public void Initialization()
         {
-            Context = new NorthwindContext(dbContextOptions);
+            Context = new NorthwindContext(dbContextStandardOptions);
             
             annihilationList = new List<object>();
 
@@ -90,6 +94,8 @@ namespace NorthWindCoreUnitTest_InMemory
             },
             ContactDevices = new List<ContactDevices>()
         };
+        
+        
 
         #region Json files generation
 
@@ -160,7 +166,7 @@ namespace NorthWindCoreUnitTest_InMemory
 
         public void LoadJoinedData()
         {
-            Context = new NorthwindContext(dbContextOptions);
+            Context = new NorthwindContext(dbContextStandardOptions);
 
             
             var customersList = CustomersRelationsData(out var contactTypeList, out var contactList, out var countriesList, out var contactDevicesList);
@@ -176,6 +182,8 @@ namespace NorthWindCoreUnitTest_InMemory
 
         #endregion
 
+        #region Annihilation
+
         protected List<object> annihilationList;
 
         protected T AddSandboxEntity<T>(T sandboxEntity) where T : class
@@ -185,5 +193,138 @@ namespace NorthWindCoreUnitTest_InMemory
             return sandboxEntity;
         }
         protected IEnumerable<T> GetSandboxEntities<T>() => (annihilationList.Where(item => item.GetType() == typeof(T)).Select(item => (T)item));
+
+        #endregion
+
+        /// <summary>
+        /// Mocked up customers for various in-memory test
+        /// </summary>
+        /// <returns></returns>
+        public static List<Customers> MockedInMemoryCustomers()
+        {
+            var customers = new List<Customers>()
+            {
+                new () {CompanyName = "Ana Trujillo Emparedados y helados", ContactId = 2, ContactTypeIdentifier = 7,CountryIdentifier = 12},
+                new () {CompanyName = "Antonio Moreno Taquería", ContactId = 3, ContactTypeIdentifier = 7,CountryIdentifier = 12},
+                new () {CompanyName = "Around the Horn", ContactId = 4, ContactTypeIdentifier = 12, CountryIdentifier = 19},
+                new () {CompanyName = "Berglunds snabbköp", ContactId = 5, ContactTypeIdentifier = 6, CountryIdentifier = 17},
+                new () {CompanyName = "Blauer See Delikatessen", ContactId = 6, ContactTypeIdentifier = 12,CountryIdentifier = 9},
+                new () {CompanyName = "Blondesddsl père et fils", ContactId = 7, ContactTypeIdentifier = 5,CountryIdentifier = 8},
+                new () {CompanyName = "Bólido Comidas preparadia", ContactId = 8, ContactTypeIdentifier = 7,CountryIdentifier = 16},
+                new () {CompanyName = "Cactus Comidas para llevar", ContactId = 11, ContactTypeIdentifier = 9,CountryIdentifier = 1},
+                new () {CompanyName = "Consolidated Holdings", ContactId = 14, ContactTypeIdentifier = 12,CountryIdentifier = 19},
+                new () {CompanyName = "Drachenblut Delikatessen", ContactId = 15, ContactTypeIdentifier = 6,CountryIdentifier = 9},
+                new () {CompanyName = "Du monde entier", ContactId = 16, ContactTypeIdentifier = 7, CountryIdentifier = 8},
+                new () {CompanyName = "Eastern Connection", ContactId = 17, ContactTypeIdentifier = 9, CountryIdentifier = 19},
+                new () {CompanyName = "Ernst Handel", ContactId = 18, ContactTypeIdentifier = 11, CountryIdentifier = 2},
+                new () {CompanyName = "FISSA Fabrica Inter. Salchichas S.A.", ContactId = 15, ContactTypeIdentifier = 1,CountryIdentifier = 16},
+                new () {CompanyName = "Folies gourmandes", ContactId = 20, ContactTypeIdentifier = 2, CountryIdentifier = 8},
+                new () {CompanyName = "Folk och fä HB", ContactId = 21, ContactTypeIdentifier = 7, CountryIdentifier = 17},
+                new () {CompanyName = "Frankenversand", ContactId = 22, ContactTypeIdentifier = 5, CountryIdentifier = 9},
+                new () {CompanyName = "France restauration", ContactId = 23, ContactTypeIdentifier = 5, CountryIdentifier = 8},
+                new () {CompanyName = "Franchi S.p.A.", ContactId = 24, ContactTypeIdentifier = 12, CountryIdentifier = 11},
+                new () {CompanyName = "Furia Bacalhau e Frutos do Mar", ContactId = 25, ContactTypeIdentifier = 11,CountryIdentifier = 15}
+            };
+
+            return customers;
+
+        }
+        /// <summary>
+        /// Setup in memory contacts.
+        /// Note context.Contact.Clear(), without this had some
+        /// strange things happen, will look deeper into this.
+        /// </summary>
+        /// <returns></returns>
+        public List<Contacts> MockedInMemoryContacts()
+        {
+            using var context = new NorthwindContext(dbContextStandardOptions);
+            
+            context.Database.EnsureDeleted();
+            context.Contacts.AddRange(MockedContacts());
+            context.SaveChanges();
+
+            return context.Contacts.ToList();
+            
+        }
+        /// <summary>
+        /// Read contact data from json file into List&lt;Contact&gt;
+        /// </summary>
+        /// <returns></returns>
+        protected List<Contacts> MockedContacts() => 
+            JsonConvert.DeserializeObject<List<Contacts>>(File.ReadAllText(contactsJsonFileName));
+
+
+        /// <summary>
+        /// Remove customer, mark contact as not in use
+        /// </summary>
+        /// <returns></returns>
+        /// <remarks>
+        /// All mockups must be saved before performing
+        /// the customer remove operation.
+        /// </remarks>
+        public bool DeleteCustomer()
+        {
+            var companyName = "Around the Horn";
+
+
+            try
+            {
+                using var context = new NorthwindContext(dbContextRemoveOptions);
+                
+                /*
+                * Mock-up tables
+                */
+                context.Customers.AddRange(MockedInMemoryCustomers());
+
+
+                context.Contacts.AddRange(MockedInMemoryContacts());
+                context.SaveChanges();
+
+                /*
+                * Find customer and contact
+                */
+                var customer = context.Customers.FirstOrDefault(
+                    cust => cust.CompanyName == companyName);
+
+
+                var contactList = context.Contacts.Where(x => x.ContactId < 20).ToList();
+                var contact = context.Contacts.FirstOrDefault(
+                    con => con.ContactId == customer.ContactId);
+
+                if (contact is not null)
+                {
+
+                    /*
+                     * Indicate state of entity to change tracker
+                     */
+                    context.Entry(customer!).State = EntityState.Modified;
+
+                    /*
+                     * Commit to in memory database
+                     */
+                    context.SaveChanges();
+
+                    /*
+                     * Remove the customer
+                     */
+                    context.Customers.Remove(customer);
+                    
+                    /*
+                     * Commit to in memory database
+                     */
+                    context.SaveChanges();
+
+                }
+
+                /*
+                 * The assertion
+                 */
+                return context.Customers.FirstOrDefault(cust => cust.CompanyName == companyName) is null;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }

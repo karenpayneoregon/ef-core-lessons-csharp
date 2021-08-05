@@ -132,5 +132,14 @@ namespace NorthWindCoreUnitTest_InMemory
             Debug.WriteLine(query);
             
         }
+
+        [TestMethod]
+        [TestTraits(Trait.InMemoryTesting_CRUD)]
+        public void RemoveSingleCustomer()
+        {
+            
+            Assert.IsTrue(DeleteCustomer());
+        }
+
     }
 }
