@@ -35,7 +35,12 @@ namespace NorthWindCoreUnitTest_InMemory
             .UseInMemoryDatabase(databaseName: "Remove_Customer_to_database")
             .Options;
 
+        #region Fluent Validator rules
+
         private CustomersValidator customersValidator;
+        private CustomersValidator1 customersValidator1;
+
+        #endregion
 
         /// <summary>
         /// Single instance of the <see cref="NorthwindContext"/> for in-memory context
@@ -57,10 +62,13 @@ namespace NorthWindCoreUnitTest_InMemory
                 TestContext.TestName == nameof(CustomerCustomSort_City) || 
                 TestContext.TestName == nameof(GetQueryString)) { LoadJoinedData(); }
 
-            if (TestContext.TestName == nameof(ValidateCompanyNameIsNull) || 
-                TestContext.TestName == nameof(ValidateCompanyNameIsNotNull))
+            
+            if (TestContext.TestName == nameof(ValidateCompanyNameIsNull) ||
+                TestContext.TestName == nameof(ValidateCompanyNameIsNull_1)) { customersValidator = new CustomersValidator(); }
+
+            if (TestContext.TestName == nameof(ValidateCompanyNameIsNotNull))
             {
-                customersValidator = new CustomersValidator();
+                customersValidator1 = new CustomersValidator1();
             }
         }
 

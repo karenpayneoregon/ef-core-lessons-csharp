@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FluentValidation.Results;
 using FluentValidation.TestHelper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -243,12 +244,37 @@ namespace NorthWindCoreUnitTest_InMemory
         /// No Assert required, on failure an exception is thrown
         /// </summary>
         [TestMethod]
+        [TestTraits(Trait.FluentValidation)]
         public void ValidateCompanyNameIsNull()
         {
 
             var singleCustomers = new Customers() { CompanyName = null };
             TestValidationResult<Customers> result = customersValidator.TestValidate(singleCustomers);
             result.ShouldHaveValidationErrorFor(customer => customer.CompanyName);
+            result.ShouldHaveValidationErrorFor(customer => customer.ModifiedDate);
+
+        }
+        
+        /// <summary>
+        /// Inspect violations
+        /// </summary>
+        [TestMethod]
+        [TestTraits(Trait.FluentValidation)]
+        public void ValidateCompanyNameIsNull_1()
+        {
+
+            var singleCustomers = new Customers() { CompanyName = null };
+
+
+            ValidationResult results = customersValidator.Validate(singleCustomers);
+
+            if (!results.IsValid)
+            {
+                foreach (var failure in results.Errors)
+                {
+                    Console.WriteLine($"Property {failure.PropertyName} failed validation. Error was: {failure.ErrorMessage}");
+                }
+            }
 
         }
 
@@ -256,12 +282,13 @@ namespace NorthWindCoreUnitTest_InMemory
         /// No Assert required, on failure an exception is thrown
         /// </summary>
         [TestMethod]
+        [TestTraits(Trait.FluentValidation)]
         public void ValidateCompanyNameIsNotNull()
         {
 
             var singleCustomer = MockedInMemoryCustomers().FirstOrDefault();
 
-            TestValidationResult<Customers> result = customersValidator.TestValidate(singleCustomer);
+            TestValidationResult<Customers> result = customersValidator1.TestValidate(singleCustomer);
 
             result.ShouldNotHaveAnyValidationErrors();
 
