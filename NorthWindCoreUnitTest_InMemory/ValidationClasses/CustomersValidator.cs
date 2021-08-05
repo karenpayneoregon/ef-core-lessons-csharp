@@ -16,8 +16,12 @@ namespace NorthWindCoreUnitTest_InMemory.ValidationClasses
     {
         public CustomersValidator()
         {
-            RuleFor(customer => customer.CompanyName).NotNull();
-            RuleFor(customer => customer.ModifiedDate).NotEmpty();
+            RuleFor(customer => customer.CompanyName)
+                .NotNull()
+                .WithMessage("Dude we need a company name");
+            
+            RuleFor(customer => customer.ModifiedDate)
+                .NotEmpty();
         }
     }
 }

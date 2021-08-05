@@ -22,6 +22,8 @@ Working with NorthWind database
 
 :heavy_check_mark: Complex multiple property GroupBy with Projections
 
+:heavy_check_mark: In-memory unit testing EF Core 5 (really part 6)
+
 ## Notes
 
 - There are many different types of group-by operations to consider, here are a few.
