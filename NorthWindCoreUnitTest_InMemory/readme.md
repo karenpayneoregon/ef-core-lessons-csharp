@@ -19,7 +19,9 @@ Examples for `unit testing` Entity Framework Core 5 with `mocking` using `in mem
 
 - [Microsoft.EntityFrameworkCore.InMemory](https://www.nuget.org/packages/Microsoft.EntityFrameworkCore.InMemory/6.0.0-preview.6.21352.1) In-memory database provider for Entity Framework Core (to be used for testing purposes).
 - [Newtonsoft.Json](https://www.nuget.org/packages/Newtonsoft.Json/) Json.NET is a popular high-performance JSON framework for .NET
+  - [Documentation](https://www.newtonsoft.com/json)
 - [FluentValidation](https://www.nuget.org/packages/FluentValidation/10.3.0?_src=template) A validation library for .NET that uses a fluent interface to construct strongly-typed validation rules.
+  -  [Documentation](https://docs.fluentvalidation.net/en/latest/index.html)
  
 # Build events
 
