@@ -27,6 +27,9 @@ namespace NorthWindCoreUnitTest_InMemory
             .EnableSensitiveDataLogging()
             .Options;
 
+        /// <summary>
+        /// Delete entity requires different options than other operations
+        /// </summary>
         readonly DbContextOptions<NorthwindContext> dbContextRemoveOptions =  new DbContextOptionsBuilder<NorthwindContext>()
             .UseInMemoryDatabase(databaseName: "Remove_Customer_to_database")
             .Options;
@@ -47,6 +50,7 @@ namespace NorthWindCoreUnitTest_InMemory
             annihilationList = new List<object>();
 
             if (TestContext.TestName == nameof(LoadingRelations) || 
+                TestContext.TestName == nameof(FindByPrimaryKey) ||
                 TestContext.TestName == nameof(CustomerCustomSort_City) || 
                 TestContext.TestName == nameof(GetQueryString)) { LoadJoinedData(); }
         }
@@ -148,6 +152,7 @@ namespace NorthWindCoreUnitTest_InMemory
             });
 
         }
+        
         private static List<Customers> CustomersRelationsData(
             out List<ContactType> contactTypeList, 
             out List<Contacts> contactList, 
@@ -155,6 +160,7 @@ namespace NorthWindCoreUnitTest_InMemory
             out List<ContactDevices> contactDevicesList)
         {
             List<Customers> customersList = JsonConvert.DeserializeObject<List<Customers>>(File.ReadAllText(customersJsonFileName));
+            
             contactTypeList = JsonConvert.DeserializeObject<List<ContactType>>(File.ReadAllText(contactTypeJsonFileName));
             contactList = JsonConvert.DeserializeObject<List<Contacts>>(File.ReadAllText(contactsJsonFileName));
             countriesList = JsonConvert.DeserializeObject<List<Countries>>(File.ReadAllText(countriesJsonFileName));
@@ -162,14 +168,18 @@ namespace NorthWindCoreUnitTest_InMemory
 
 
             return customersList;
+            
         }
 
         public void LoadJoinedData()
         {
             Context = new NorthwindContext(dbContextStandardOptions);
-
             
-            var customersList = CustomersRelationsData(out var contactTypeList, out var contactList, out var countriesList, out var contactDevicesList);
+            var customersList = CustomersRelationsData(
+                out var contactTypeList, 
+                out var contactList, 
+                out var countriesList, 
+                out var contactDevicesList);
 
             Context.Customers.AddRange(customersList!);
             Context.ContactType.AddRange(contactTypeList!);
@@ -177,7 +187,9 @@ namespace NorthWindCoreUnitTest_InMemory
             Context.Countries.AddRange(countriesList!);
             Context.ContactDevices.AddRange(contactDevicesList);
             var count = Context.SaveChanges();
-            var tep = Context;
+
+            //var customers = Context.Customers.ToList();
+            //var tep = Context;
         }
 
         #endregion
@@ -195,6 +207,8 @@ namespace NorthWindCoreUnitTest_InMemory
         protected IEnumerable<T> GetSandboxEntities<T>() => (annihilationList.Where(item => item.GetType() == typeof(T)).Select(item => (T)item));
 
         #endregion
+
+        #region Code responsible for obtaining mocked data 
 
         /// <summary>
         /// Mocked up customers for various in-memory test
@@ -238,20 +252,22 @@ namespace NorthWindCoreUnitTest_InMemory
         public List<Contacts> MockedInMemoryContacts()
         {
             using var context = new NorthwindContext(dbContextStandardOptions);
-            
+
             context.Database.EnsureDeleted();
             context.Contacts.AddRange(MockedContacts());
             context.SaveChanges();
 
             return context.Contacts.ToList();
-            
+
         }
         /// <summary>
         /// Read contact data from json file into List&lt;Contact&gt;
         /// </summary>
         /// <returns></returns>
-        protected List<Contacts> MockedContacts() => 
+        protected List<Contacts> MockedContacts() =>
             JsonConvert.DeserializeObject<List<Contacts>>(File.ReadAllText(contactsJsonFileName));
+
+        #endregion
 
 
         /// <summary>
@@ -265,7 +281,6 @@ namespace NorthWindCoreUnitTest_InMemory
         public bool DeleteCustomer()
         {
             var companyName = "Around the Horn";
-
 
             try
             {

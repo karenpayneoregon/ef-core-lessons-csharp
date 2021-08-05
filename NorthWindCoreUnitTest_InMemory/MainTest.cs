@@ -5,10 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NorthWindCoreLibrary.Classes.Helpers;
 using NorthWindCoreLibrary.Data;
+using NorthWindCoreLibrary.LanguageExtensions;
 using NorthWindCoreLibrary.Models;
 using NorthWindCoreUnitTest_InMemory.Base;
 using NorthWindCoreUnitTest_InMemory.DataProvider;
@@ -36,7 +38,7 @@ namespace NorthWindCoreUnitTest_InMemory
         /// Mockup for adding a single <see cref="Customers"/>
         /// </summary>
         [TestMethod]
-        [TestTraits(Trait.InMemoryTesting_CRUD)]
+        [TestTraits(Trait.CRUD)]
         public void AddCustomerTest()
         {
             Context.Entry(SingleContact).State = EntityState.Added;
@@ -59,7 +61,7 @@ namespace NorthWindCoreUnitTest_InMemory
         }
 
         [TestMethod]
-        [TestTraits(Trait.InMemoryTesting_Relations)]
+        [TestTraits(Trait.Relations)]
         public void LoadingRelations()
         {
             int customerIdentifier = 3;
@@ -84,10 +86,9 @@ namespace NorthWindCoreUnitTest_InMemory
         }
 
         [TestMethod]
-        [TestTraits(Trait.InMemoryTesting_CustomSorting)]
+        [TestTraits(Trait.CustomSorting)]
         public void CustomerCustomSort_City()
         {
-            
             
             List<Customers> customersList = Context.Customers
                 .Include(customer => customer.CountryIdentifierNavigation)
@@ -134,12 +135,108 @@ namespace NorthWindCoreUnitTest_InMemory
         }
 
         [TestMethod]
-        [TestTraits(Trait.InMemoryTesting_CRUD)]
+        [TestTraits(Trait.CRUD)]
         public void RemoveSingleCustomer()
         {
             
             Assert.IsTrue(DeleteCustomer());
         }
+
+        /// <summary>
+        /// Find by primary key
+        /// </summary>
+        [TestMethod]
+        [TestTraits(Trait.AccessTrackedEntities)]
+        public void FindByPrimaryKey()
+        {
+            var customer = Context.Customers.Find(3);
+            Assert.IsTrue(customer.CompanyName == "Antonio Moreno Taquería");
+        }
+
+        #region Working with live data, same can be done with in-memory
+
+
+        [TestMethod]
+        [TestTraits(Trait.AccessTrackedEntities)]
+        public void FindAndLoadSingleCollection()
+        {
+            using var context = new NorthwindContext();
+
+            var customer = context.Customers.Find(3);
+            Assert.IsTrue(customer.CompanyName == "Antonio Moreno Taquería");
+
+            Assert.IsTrue(customer.Orders.Count == 0);
+            context.Entry(customer).Collection(e => e.Orders).Load();
+            Assert.IsTrue(customer.Orders.Count > 0);
+
+        }
+
+        /// <summary>
+        /// Demonstrates modifying a entry state
+        /// </summary>
+        [TestMethod]
+        [TestTraits(Trait.AccessTrackedEntities)]
+        public void FindAndModifySingleEntry()
+        {
+            using var context = new NorthwindContext();
+
+            var customer = context.Customers.Find(3);
+            Assert.IsTrue(customer.CompanyName == "Antonio Moreno Taquería");
+            Assert.IsTrue(context.Entry(customer).State == EntityState.Unchanged);
+
+            customer.CompanyName = "ABC";
+            Assert.IsTrue(context.Entry(customer).State == EntityState.Modified);
+        }
+
+        [TestMethod]
+        [TestTraits(Trait.AccessTrackedEntities)]
+        public void ChangeCurrentValueByType()
+        {
+            var expectedDate = new DateTime(2021, 7, 4);
+            using var context = new NorthwindContext();
+
+            /*
+             * Get Customer by primary key
+             */
+            var customer = context.Customers.Find(3);
+
+            /*
+             * Rather than directly setting ModifiedDate we look for it via type
+             * Note: DateTime will fail as ModifiedDate is nullable
+             */
+            foreach (var propertyEntry in context.Entry(customer).Properties)
+            {
+
+                if (propertyEntry.Metadata.ClrType == typeof(DateTime?))
+                {
+                    propertyEntry.CurrentValue = expectedDate;
+                }
+            }
+
+            // Assert
+            Assert.AreEqual(customer.ModifiedDate, expectedDate);
+
+
+            /*
+             * Get original values from the database
+             */
+            var originalCustomer = context.Customers.AsNoTracking()
+                .FirstOrDefault(cust => cust.CustomerIdentifier == customer.CustomerIdentifier);
+
+            /*
+             * Revert to ModifiedDate original value
+             */
+            customer.ModifiedDate = originalCustomer.ModifiedDate;
+
+            // Assert
+            Assert.AreNotEqual(customer.ModifiedDate, expectedDate);
+
+        }
+
+        #endregion
+
+
+
 
     }
 }
