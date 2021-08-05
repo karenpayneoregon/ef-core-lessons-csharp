@@ -42,7 +42,7 @@ namespace NorthWindCoreUnitTest_InMemory
             
             annihilationList = new List<object>();
 
-            if (TestContext.TestName == nameof(LoadingRelations))
+            if (TestContext.TestName == nameof(LoadingRelations) || TestContext.TestName == nameof(CustomerCustomSort_City))
             {
                 LoadJoinedData();
             }
@@ -117,8 +117,15 @@ namespace NorthWindCoreUnitTest_InMemory
             List<Countries> countriesList = context.Countries.ToList();
             await File.WriteAllTextAsync(countriesJsonFileName, JsonHelpers.Serialize<Countries>(countriesList));
 
-            List<ContactDevices> contactDeviceList = context.ContactDevices.ToList();
-            await File.WriteAllTextAsync(contactDevicesJsonFileName, JsonHelpers.Serialize<ContactDevices>(contactDeviceList));
+            try
+            {
+                List<ContactDevices> contactDeviceList = context.ContactDevices.ToList();
+                await File.WriteAllTextAsync(contactDevicesJsonFileName, JsonHelpers.Serialize<ContactDevices>(contactDeviceList));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
         }
 
         public static async Task<List<CustomerEntity>> AllCustomersToJsonAsync()

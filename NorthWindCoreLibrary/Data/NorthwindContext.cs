@@ -24,26 +24,24 @@ namespace NorthWindCoreLibrary.Data
     /// </remarks>
     public partial class NorthwindContext : DbContext
     {
-        /// <summary>
-        /// For logging to file via .LogTo
-        /// </summary>
-        //private readonly StreamWriter _logStream = new("logging.txt", append: true);
+
         private readonly StreamWriter _logStream;
         
         public NorthwindContext()
         {
-            
+#if !DEBUG
             try
             {
                 _logStream = new("logging.txt", append: true);
             }
             catch (Exception exception)
             {
-#if DEBUG
+
                 Debug.WriteLine(exception.Message);
-#endif
+
 
             }
+#endif
         }
 
         public NorthwindContext(DbContextOptions<NorthwindContext> options)
@@ -140,18 +138,24 @@ namespace NorthWindCoreLibrary.Data
         public override void Dispose()
         {
             base.Dispose();
+            
+            #if !DEBUG
             _logStream.Dispose();
+            #endif
+
         }
 
         public override async ValueTask DisposeAsync()
         {
             await base.DisposeAsync();
+            #if !DEBUG
             if (_logStream is not null)
             {
                 await _logStream.DisposeAsync();
             }
+            #endif
             
         }
-        #endregion             
+#endregion
     }
 }

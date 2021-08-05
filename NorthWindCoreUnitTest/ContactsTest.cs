@@ -76,7 +76,7 @@ namespace NorthWindCoreUnitTest
                 Console.WriteLine($"{contact.ContactId}, {contact.FirstName} {contact.LastName} {contact.ContactDevices.Count}");
                 foreach (var device in contact.ContactDevices)
                 {
-                    Console.WriteLine($"\t{device.PhoneTypeIdentifierNavigation.PhoneTypeDescription} - {device.ContactPhoneNumber}");
+                    Console.WriteLine($"\t{device.PhoneTypeIdentifierNavigation.PhoneTypeDescription} - {device.PhoneNumber}");
                 }
             }
         }

@@ -68,6 +68,10 @@ namespace NorthWindCoreLibrary.Models
         public virtual ContactType ContactTypeIdentifierNavigation { get; set; }
         public virtual Countries CountryIdentifierNavigation { get; set; }
         public virtual ICollection<Orders> Orders { get; set; }
+        public override string ToString()
+        {
+            return $"{CustomerIdentifier} - {CompanyName}";
+        }
 
         public static Expression<Func<Customers, CustomerEntity>> Projection
         {

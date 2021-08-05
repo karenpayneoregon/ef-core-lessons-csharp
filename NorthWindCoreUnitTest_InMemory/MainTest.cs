@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NorthWindCoreLibrary.Classes.Helpers;
 using NorthWindCoreLibrary.Models;
 using NorthWindCoreUnitTest_InMemory.Base;
 using NorthWindCoreUnitTest_InMemory.DataProvider;
@@ -22,7 +23,7 @@ namespace NorthWindCoreUnitTest_InMemory
         /// </summary>
         /// <returns></returns>
         [TestMethod]
-        [Ignore]
+        //[Ignore]
         [TestTraits(Trait.JsonGeneration)]
         public async Task CreateJsonFilesTask()
         {
@@ -66,7 +67,7 @@ namespace NorthWindCoreUnitTest_InMemory
             var singleCustomer = Context.Customers
                 .Include(customer => customer.CountryIdentifierNavigation)
                 .Include(customer => customer.Contact)
-                .ThenInclude(x => x.ContactDevices)
+                .ThenInclude(contact => contact.ContactDevices)
                 .FirstOrDefault(customer => customer.CustomerIdentifier == customerIdentifier);
 
             // ReSharper disable once PossibleNullReferenceException
@@ -75,11 +76,28 @@ namespace NorthWindCoreUnitTest_InMemory
             Assert.AreEqual(singleCustomer.Contact.FirstName, expected.FirstName);
             Assert.AreEqual(singleCustomer.Contact.LastName, expected.LastName);
             
-            Assert.AreEqual(singleCustomer.Contact.ContactDevices.FirstOrDefault().ContactPhoneNumber, 
-                expected.ContactPhoneNumber);
-
+            Assert.AreEqual(singleCustomer.Contact.ContactDevices.FirstOrDefault().PhoneNumber, expected.ContactPhoneNumber);
 
         }
+
+        [TestMethod]
+        public void CustomerCustomSort_City()
+        {
+            
+            
+            List<Customers> customersList = Context.Customers
+                .Include(customer => customer.CountryIdentifierNavigation)
+                .Include(customer => customer.Contact)
+                .ThenInclude(contact => contact.ContactDevices)
+                .ThenInclude(x => x.PhoneTypeIdentifierNavigation)
+                .ToList().SortByPropertyName("CompanyName", SortDirection.Descending);
+
+            Assert.IsTrue(customersList.FirstOrDefault().City == "Warszawa");
+            Assert.IsTrue(customersList.LastOrDefault().City == "Berlin");
+            
+            
+        }
+
 
     }
 }

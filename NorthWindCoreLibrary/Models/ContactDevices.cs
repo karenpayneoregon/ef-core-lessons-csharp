@@ -13,7 +13,7 @@ namespace NorthWindCoreLibrary.Models
         public int Id { get; set; }
         public int? ContactId { get; set; }
         public int? PhoneTypeIdentifier { get; set; }
-        public string ContactPhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
 
         [JsonIgnore]
         public virtual Contacts Contact { get; set; }
