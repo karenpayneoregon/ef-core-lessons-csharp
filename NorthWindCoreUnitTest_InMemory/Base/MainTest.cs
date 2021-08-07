@@ -54,10 +54,11 @@ namespace NorthWindCoreUnitTest_InMemory
         public void Initialization()
         {
             Context = new NorthwindContext(dbContextStandardOptions);
-            
+
             annihilationList = new List<object>();
 
             if (TestContext.TestName == nameof(LoadingRelations) || 
+                TestContext.TestName == nameof(LoadingTheSinkRelations) ||
                 TestContext.TestName == nameof(FindByPrimaryKey) ||
                 TestContext.TestName == nameof(CustomerCustomSort_City) || 
                 TestContext.TestName == nameof(GetQueryString)) { LoadJoinedData(); }
@@ -174,7 +175,8 @@ namespace NorthWindCoreUnitTest_InMemory
             out List<ContactType> contactTypeList, 
             out List<Contacts> contactList, 
             out List<Countries> countriesList, 
-            out List<ContactDevices> contactDevicesList)
+            out List<ContactDevices> contactDevicesList,
+            out List<PhoneType> phoneTypesList)
         {
             List<Customers> customersList = JsonConvert.DeserializeObject<List<Customers>>(File.ReadAllText(customersJsonFileName));
             
@@ -183,6 +185,12 @@ namespace NorthWindCoreUnitTest_InMemory
             countriesList = JsonConvert.DeserializeObject<List<Countries>>(File.ReadAllText(countriesJsonFileName));
             contactDevicesList = JsonConvert.DeserializeObject<List<ContactDevices>>(File.ReadAllText(contactDevicesJsonFileName));
 
+            phoneTypesList = new List<PhoneType>()
+            {
+                new () {PhoneTypeDescription = "Home"},
+                new () {PhoneTypeDescription = "Cell"},
+                new () {PhoneTypeDescription = "Office"}
+            };
 
             return customersList;
             
@@ -196,13 +204,16 @@ namespace NorthWindCoreUnitTest_InMemory
                 out var contactTypeList, 
                 out var contactList, 
                 out var countriesList, 
-                out var contactDevicesList);
+                out var contactDevicesList, 
+                out var phoneTypesList);
 
             Context.Customers.AddRange(customersList!);
             Context.ContactType.AddRange(contactTypeList!);
             Context.Contacts.AddRange(contactList!);
             Context.Countries.AddRange(countriesList!);
             Context.ContactDevices.AddRange(contactDevicesList);
+            Context.PhoneType.AddRange(phoneTypesList);
+            
             var count = Context.SaveChanges();
 
             //var customers = Context.Customers.ToList();
@@ -281,8 +292,7 @@ namespace NorthWindCoreUnitTest_InMemory
         /// Read contact data from json file into List&lt;Contact&gt;
         /// </summary>
         /// <returns></returns>
-        protected List<Contacts> MockedContacts() =>
-            JsonConvert.DeserializeObject<List<Contacts>>(File.ReadAllText(contactsJsonFileName));
+        protected List<Contacts> MockedContacts() => JsonConvert.DeserializeObject<List<Contacts>>(File.ReadAllText(contactsJsonFileName));
 
         #endregion
 
@@ -357,6 +367,17 @@ namespace NorthWindCoreUnitTest_InMemory
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Get phone type description by phone type identifier.
+        /// Note this is better done with a generic repository
+        /// </summary>
+        /// <param name="identifier">Phone type identifier</param>
+        /// <returns>Phone description</returns>
+        public string GetPhoneType(int identifier)
+        {
+            return Context.PhoneType.FirstOrDefault(pType => pType.PhoneTypeIdenitfier == identifier).PhoneTypeDescription;
         }
     }
 }

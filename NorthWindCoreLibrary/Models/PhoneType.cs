@@ -14,6 +14,7 @@ namespace NorthWindCoreLibrary.Models
         }
 
         public int PhoneTypeIdenitfier { get; set; }
+
         public string PhoneTypeDescription { get; set; }
 
         public virtual ICollection<ContactDevices> ContactDevices { get; set; }

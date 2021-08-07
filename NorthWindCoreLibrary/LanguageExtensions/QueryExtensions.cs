@@ -16,9 +16,38 @@ namespace NorthWindCoreLibrary.LanguageExtensions
         /// </summary>
         /// <param name="query"></param>
         /// <returns></returns>
-        public static IQueryable<Customers> IncludeContactsCountryDevices(this IQueryable<Customers> query) => query
+        public static IQueryable<Customers> IncludeContactsDevicesCountry(this IQueryable<Customers> query) => query
             .Include(customer => customer.CountryIdentifierNavigation)
             .Include(customer => customer.Contact)
             .ThenInclude(contact => contact.ContactDevices);
+
+
+        public static IQueryable<Customers> IncludeTheKitchenSink(this IQueryable<Customers> query) => query
+            .Include(customer => customer.Contact)
+            .ThenInclude(contact => contact.ContactDevices)
+            .ThenInclude(contactDevices => contactDevices.PhoneTypeIdentifierNavigation)
+            .Include(customer => customer.ContactTypeIdentifierNavigation)
+            .Include(customer => customer.CountryIdentifierNavigation);
+
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        public static IQueryable<Customers> IncludeTheKitchenSinkForOffice(this IQueryable<Customers> query) => query
+            .Include(customer => customer.Contact)
+            .ThenInclude(contact => contact.ContactDevices)
+            .ThenInclude(contactDevices => contactDevices.PhoneTypeIdentifierNavigation)
+            .Include(customer => customer.ContactTypeIdentifierNavigation)
+            .Include(customer => customer.CountryIdentifierNavigation);
+
+        public static IQueryable<Contacts> IncludeNavigations(this IQueryable<Contacts> query) => query
+            .Include(contact => contact.ContactTypeIdentifierNavigation)
+            .Include(contact => contact.ContactDevices);
+
+
+
+
+
     }
 }

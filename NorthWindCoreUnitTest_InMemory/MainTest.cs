@@ -78,18 +78,41 @@ namespace NorthWindCoreUnitTest_InMemory
              * Note 
              */
             var singleCustomer = Context.Customers
-                .IncludeContactsCountryDevices()
+                .IncludeContactsDevicesCountry()
                 .FirstOrDefault(customer => customer.CustomerIdentifier == customerIdentifier);
 
-            // ReSharper disable once PossibleNullReferenceException
+
             Assert.AreEqual(singleCustomer.CompanyName, expected.CompanyName);
             Assert.AreEqual(singleCustomer.CountryIdentifierNavigation.Name, expected.Country);
             Assert.AreEqual(singleCustomer.Contact.FirstName, expected.FirstName);
             Assert.AreEqual(singleCustomer.Contact.LastName, expected.LastName);
-            
+            Assert.IsTrue(singleCustomer.Contact.ContactDevices.FirstOrDefault().PhoneTypeIdentifierNavigation.PhoneTypeDescription == "Office");
             Assert.AreEqual(singleCustomer.Contact.ContactDevices.FirstOrDefault().PhoneNumber, expected.ContactPhoneNumber);
 
+
+
         }
+
+        [TestMethod]
+        [TestTraits(Trait.Relations)]
+        public void LoadingTheSinkRelations()
+        {
+            int customerIdentifier = 1;
+
+            var singleCustomer = Context.Customers
+                .IncludeContactsDevicesCountry()
+                .FirstOrDefault(customer => customer.CustomerIdentifier == customerIdentifier);
+
+            Debug.WriteLine($"{singleCustomer.Contact.FirstName} {singleCustomer.Contact.LastName}");
+            foreach (var device in singleCustomer.Contact.ContactDevices)
+            {
+                Debug.WriteLine($"{GetPhoneType(device.PhoneTypeIdentifier.Value)} {device.Contact.LastName} {device.PhoneNumber}");
+            }
+        }
+
+
+
+
 
         [TestMethod]
         [TestTraits(Trait.CustomSorting)]
@@ -157,6 +180,60 @@ namespace NorthWindCoreUnitTest_InMemory
         {
             var customer = Context.Customers.Find(3);
             Assert.IsTrue(customer.CompanyName == "Antonio Moreno Taquería");
+        }
+
+        /// <summary>
+        /// Example for obtaining current and original values of a tracked entity
+        ///
+        /// Note CurrentValue and OriginalValue are get/setters
+        /// </summary>
+        [TestMethod]
+        [TestTraits(Trait.AccessTrackedEntities)]
+        public void ContactOriginalCurrentValueCheck()
+        {
+            var firstName = "Karen";
+            var changedFirstName = "Mary";
+
+            // create a new Contact and save
+            Contacts contacts = new Contacts() { FirstName = firstName };
+            Contacts contact1 = new Contacts() { ContactId = 1, FirstName = "Bick", LastName = "VU"};
+
+
+            Context.Add(contacts);
+            Assert.IsTrue(Context.SaveChanges() == 1);
+
+            // get current first name
+            var currentFirstName = Context.Entry(SingleContact)
+                .Property(contact => contact.FirstName).CurrentValue;
+
+            Assert.AreEqual(currentFirstName, firstName);
+
+            // change first name
+            contacts.FirstName = changedFirstName;
+            
+            // validate first name changed
+            Assert.AreEqual(contacts.FirstName, changedFirstName );
+
+            // get original first name
+            var originalFirstName = Context.Entry(SingleContact)
+                .Property(contact => contact.FirstName).OriginalValue;
+
+            // assert we got the original value
+            Assert.IsTrue(originalFirstName == firstName);
+
+
+            /*
+             * Let's clone the  contact
+             */
+            var clonedContact = Context.Entry(contacts).GetDatabaseValues().ToObject() as Contacts;
+            
+            Context.Entry(contacts).CurrentValues.SetValues(contact1);
+            Assert.IsTrue(contacts.LastName == "VU");
+            
+            /*
+             * Assert the clone contact last name is empty
+             */
+            Assert.IsNull(clonedContact.LastName);
         }
 
         #region Working with live data, same can be done with in-memory
