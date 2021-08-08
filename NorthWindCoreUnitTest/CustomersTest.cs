@@ -8,6 +8,7 @@ using NorthWindCoreLibrary.Classes;
 using NorthWindCoreLibrary.Classes.North.Classes;
 using NorthWindCoreLibrary.Data;
 using NorthWindCoreLibrary.Models;
+using NorthWindCoreLibrary.Projections;
 using NorthWindCoreUnitTest.Base;
 using NorthWindCoreUnitTest.Classes;
 
@@ -37,8 +38,7 @@ namespace NorthWindCoreUnitTest
         [TestTraits(Trait.EfCoreCustomersSelect)]
         public async Task CustomersProject()
         {
-            var customers = 
-                await CustomersOperations.GetCustomersWithProjectionAsync();
+            var customers = await CustomersOperations.GetCustomersWithProjectionAsync();
 
             string firstName = customers
                 .FirstOrDefault(cust => cust.FirstName == "Maria").FirstName;
@@ -70,7 +70,24 @@ namespace NorthWindCoreUnitTest
 
         #endregion
 
+        /// <summary>
+        /// Uses <see cref="Task.WhenAll"/> to create a task that will complete when all of the supplied tasks have completed.
+        /// In this case we are obtaining the same data although one is unsorted and the other sorted
+        /// </summary>
+        /// <returns></returns>
+        [TestMethod]
+        public async Task WhenAll()
+        {
+            Task<List<CustomerItem>> customersTask1 = CustomersOperations.GetCustomersWithProjectionAsync();
+            Task<List<CustomerItemSort>> customersTask2 = CustomersOperations.GetCustomersWithProjectionSortAsync();
+            await Task.WhenAll(customersTask1, customersTask2);
 
+            List<CustomerItem> test1 = customersTask1.Result;
+            List<CustomerItemSort> test2 = customersTask2.Result;
 
+            Assert.AreEqual(customersTask1.Result.Count, 91);
+            Assert.AreEqual(customersTask2.Result.Count, 91);
+            
+        }
     }
 }

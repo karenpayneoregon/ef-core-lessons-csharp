@@ -42,7 +42,7 @@ namespace NorthWindCoreUnitTest_InMemory
         /// </summary>
         [TestMethod]
         [TestTraits(Trait.CRUD)]
-        public void AddCustomerTest()
+        public void AddSingleNewCustomer()
         {
             Context.Entry(SingleContact).State = EntityState.Added;
 
@@ -195,8 +195,17 @@ namespace NorthWindCoreUnitTest_InMemory
             var changedFirstName = "Mary";
 
             // create a new Contact and save
-            Contacts contacts = new Contacts() { FirstName = firstName };
-            Contacts contact1 = new Contacts() { ContactId = 1, FirstName = "Bick", LastName = "VU"};
+            Contacts contacts = new Contacts()
+            {
+                FirstName = firstName
+            };
+            
+            Contacts contact1 = new Contacts()
+            {
+                ContactId = 1, 
+                FirstName = "Bick", 
+                LastName = "VU"
+            };
 
 
             Context.Add(contacts);
@@ -223,10 +232,13 @@ namespace NorthWindCoreUnitTest_InMemory
 
 
             /*
-             * Let's clone the  contact
+             * Let's clone the  contact (without as Contacts clonedContact is type object but we know better)
              */
             var clonedContact = Context.Entry(contacts).GetDatabaseValues().ToObject() as Contacts;
             
+            /*
+             * In short set all properties of contact1 to contact object
+             */
             Context.Entry(contacts).CurrentValues.SetValues(contact1);
             Assert.IsTrue(contacts.LastName == "VU");
             
@@ -235,6 +247,11 @@ namespace NorthWindCoreUnitTest_InMemory
              */
             Assert.IsNull(clonedContact.LastName);
         }
+
+        /*
+         * Karen - next code samples to work on
+         * https://docs.microsoft.com/en-us/ef/core/change-tracking/entity-entries#using-changetrackerentries-to-access-all-tracked-entities
+         */
 
         #region Working with live data, same can be done with in-memory
 
