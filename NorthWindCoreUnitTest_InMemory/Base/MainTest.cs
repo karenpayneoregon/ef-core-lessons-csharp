@@ -12,6 +12,7 @@ using NorthWindCoreLibrary.Classes.Helpers;
 using NorthWindCoreLibrary.Classes.North.Classes;
 using NorthWindCoreLibrary.Data;
 using NorthWindCoreLibrary.Models;
+using NorthWindCoreLibrary.Projections;
 using NorthWindCoreUnitTest_InMemory.ValidationClasses;
 
 
@@ -154,6 +155,15 @@ namespace NorthWindCoreUnitTest_InMemory
                 Debug.WriteLine(ex.Message);
             }
         }
+        
+        public static ContactItem contact => new ()
+        {
+            ContactId = 1, 
+            ContactTitle = "Accounting Manager", 
+            FirstName = "Maria", 
+            LastName = "Anders", 
+            ContactTypeIdentifier = 1
+        };
 
         public static async Task<List<CustomerEntity>> AllCustomersToJsonAsync()
         {

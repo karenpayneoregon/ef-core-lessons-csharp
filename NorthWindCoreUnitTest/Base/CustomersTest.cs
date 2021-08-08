@@ -19,7 +19,7 @@ namespace NorthWindCoreUnitTest
         {
             if (TestContext.TestName == nameof(CustomerCount))
             {
-                // Bill - Is this needed
+
             }
         }
 
