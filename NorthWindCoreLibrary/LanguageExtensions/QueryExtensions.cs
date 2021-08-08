@@ -30,7 +30,7 @@ namespace NorthWindCoreLibrary.LanguageExtensions
             .Include(customer => customer.CountryIdentifierNavigation);
 
         /// <summary>
-        /// TODO - More examples for includes and filters
+        /// Fred - More examples for includes and filters
         /// </summary>
         /// <param name="query"></param>
         /// <returns></returns>

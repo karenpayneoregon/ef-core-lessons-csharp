@@ -10,7 +10,7 @@ namespace NorthWindCoreLibrary.LanguageExtensions
 {
     public class EntityHelpers
     {
-       // Karen ???
-       
+        // Charlotte ???
+
     }
 }

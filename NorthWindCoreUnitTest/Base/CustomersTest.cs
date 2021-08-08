@@ -19,7 +19,7 @@ namespace NorthWindCoreUnitTest
         {
             if (TestContext.TestName == nameof(CustomerCount))
             {
-                // TODO - Is this needed
+                // Bill - Is this needed
             }
         }
 
@@ -31,7 +31,7 @@ namespace NorthWindCoreUnitTest
         {
             if (TestContext.TestName == nameof(CustomerCount))
             {
-                // TODO - demo TestCleanup
+                // Yelena - demo TestCleanup
             }
         }
         /// <summary>
