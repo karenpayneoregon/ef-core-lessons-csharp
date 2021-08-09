@@ -9,6 +9,7 @@ using ConfigurationHelper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Logging;
+using NorthWindCoreLibrary.Data.Interceptors;
 using NorthWindCoreLibrary.Models;
 
 #nullable disable
@@ -80,7 +81,9 @@ namespace NorthWindCoreLibrary.Data
                 //optionsBuilder.UseSqlServer("Data Source=.\\SQLEXPRESS;Initial Catalog=NorthWind2020;Integrated Security=True");
                 
                 optionsBuilder.UseSqlServer(Helper.ConnectionString());
-                
+
+                //CustomInterceptorNoLogging(optionsBuilder);
+
                 //optionsBuilder.UseLazyLoadingProxies().UseSqlServer(Helper.ConnectionString());
 
                 //LogQueryInfoToFile(optionsBuilder);
@@ -113,7 +116,12 @@ namespace NorthWindCoreLibrary.Data
         {
             optionsBuilder.UseSqlServer(Helper.ConnectionString());
         }
-
+        private static void CustomInterceptorNoLogging(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder
+                .UseSqlServer(Helper.ConnectionString())
+                .AddInterceptors(new SavedChangesInterceptor());
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

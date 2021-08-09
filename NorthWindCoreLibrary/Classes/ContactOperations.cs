@@ -56,8 +56,8 @@ namespace NorthWindCoreLibrary.Classes
             using var context = new NorthwindContext();
             
             List<Contacts> results = context.Contacts
-                .Include(x => x.ContactDevices)
-                .ThenInclude(x => x.PhoneTypeIdentifierNavigation)
+                .Include(contacts => contacts.ContactDevices)
+                .ThenInclude(contactDevices => contactDevices.PhoneTypeIdentifierNavigation)
                 .ToList();
             
             return results;

@@ -36,6 +36,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NorthWindCoreUnitTest_InMem
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsApp1", "WindowsFormsApp1\WindowsFormsApp1.csproj", "{55DADE2C-A742-4472-82AB-0B04EE38A258}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SaveChangesInterceptorApp", "SaveInterceptorWindowsForms\SaveChangesInterceptorApp.csproj", "{8BE32523-C8C6-4029-91D4-B072497D26C8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -74,6 +76,10 @@ Global
 		{55DADE2C-A742-4472-82AB-0B04EE38A258}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55DADE2C-A742-4472-82AB-0B04EE38A258}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55DADE2C-A742-4472-82AB-0B04EE38A258}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BE32523-C8C6-4029-91D4-B072497D26C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BE32523-C8C6-4029-91D4-B072497D26C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BE32523-C8C6-4029-91D4-B072497D26C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BE32523-C8C6-4029-91D4-B072497D26C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -88,6 +94,7 @@ Global
 		{FE57C747-B16E-4F5D-950E-3064FE210AC9} = {FD2FD0A0-E891-4405-86A0-BDF6C4A1820D}
 		{4B7EC3C1-8CD8-402E-B32E-2533E4DC711F} = {D5F06049-0C09-4161-8549-6D9AF9645B20}
 		{55DADE2C-A742-4472-82AB-0B04EE38A258} = {4E695151-906E-413B-99DA-DC40CAD4539A}
+		{8BE32523-C8C6-4029-91D4-B072497D26C8} = {4E695151-906E-413B-99DA-DC40CAD4539A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D96E5810-19AD-469B-B57A-489EED3AA1D5}
