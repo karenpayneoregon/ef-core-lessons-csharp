@@ -23,20 +23,8 @@ namespace NorthWindCoreUnitTest_InMemory
     [TestClass]
     public partial class MainTest : TestBase
     {
-        /// <summary>
-        /// Generate json files for in memory testing.
-        /// Should only run this once then again any time
-        /// one of the models changes
-        /// </summary>
-        /// <returns></returns>
-        [TestMethod]
-        //[Ignore]
-        [TestTraits(Trait.JsonGeneration)]
-        public async Task CreateJsonFilesTask()
-        {
-            await SerializeModelsToJson();
-        }
-        
+
+
         /// <summary>
         /// Mockup for adding a single <see cref="Customers"/>
         /// </summary>
@@ -62,6 +50,72 @@ namespace NorthWindCoreUnitTest_InMemory
                 "Expect one customer and one contact to be added.");
 
         }
+
+        [TestMethod]
+        [TestTraits(Trait.CRUD)]
+        public void CustomersAddRange()
+        {
+            
+            using var context = new NorthwindContext(dbContextRemoveOptions);
+
+            context.Customers.AddRange(MockedInMemoryCustomers());
+            context.Contacts.AddRange(MockedInMemoryContacts());
+            
+            context.SaveChanges();
+
+            Assert.IsTrue(
+                context.Customers.Count() == 20 && 
+                context.Customers.ToList().All(x => x.Contact is not null)
+            );
+
+            var someCustomers = context.Customers.Take(3).ToList();
+            
+            context.Customers.RemoveRange(someCustomers);
+            context.SaveChanges();
+            Assert.AreEqual(context.Customers.Count(),17);
+
+
+        }
+        [TestMethod]
+        [TestTraits(Trait.CRUD)]
+        public void CustomersRemoveRange()
+        {
+            var someCustomers = Context.Customers.Take(3).ToList();
+            Context.Customers.RemoveRange(someCustomers);
+            Context.SaveChanges();
+            Assert.AreEqual(Context.Customers.Count(),88);
+        }
+
+        /// <summary>
+        /// Before EF Core 5 there was no method to filter related data, now we can use
+        ///     .Where, .OrderBy, .OrderByDescending and .Take(x)
+        /// </summary>
+        /// <remarks>
+        /// See
+        ///
+        /// Include uses Eager loading for related data
+        /// https://docs.microsoft.com/en-us/ef/core/querying/related-data/eager
+        /// 
+        /// Filtered include
+        /// https://docs.microsoft.com/en-us/ef/core/querying/related-data/eager#filtered-include
+        /// 
+        /// </remarks>
+        [TestMethod]
+        [TestTraits(Trait.Filtering)]
+        public void FilteredInclude()
+        {
+            var germanyCountryIdentifier = 9;
+            using var data = new NorthwindContext();
+            
+            var customersList = data.Customers.AsNoTracking()
+                .Include(customer => customer.Orders)
+                    .Where(x => x.CountryIdentifier == germanyCountryIdentifier)
+                .ToList();
+            
+            Assert.IsTrue(customersList.Count == 11);
+        }
+
+
         /// <summary>
         ///
         ///
@@ -88,8 +142,7 @@ namespace NorthWindCoreUnitTest_InMemory
             Assert.AreEqual(singleCustomer.Contact.LastName, expected.LastName);
             Assert.IsTrue(singleCustomer.Contact.ContactDevices.FirstOrDefault().PhoneTypeIdentifierNavigation.PhoneTypeDescription == "Office");
             Assert.AreEqual(singleCustomer.Contact.ContactDevices.FirstOrDefault().PhoneNumber, expected.ContactPhoneNumber);
-
-
+            
 
         }
 

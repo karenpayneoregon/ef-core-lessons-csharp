@@ -30,7 +30,7 @@ namespace NorthWindCoreLibrary.Models
         /// <summary>
         /// Contact Type Id
         /// </summary>
-        [JsonIgnore]
+        //[JsonIgnore]
         public int? ContactTypeIdentifier { get; set; }
         [JsonIgnore]
         public virtual ContactType ContactTypeIdentifierNavigation { get; set; }

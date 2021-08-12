@@ -10,9 +10,11 @@
 	<ItemGroup>
 	  <Content Include="bin\Debug\net5.0\Json\ContactDevices.json" />
 	  <Content Include="bin\Debug\net5.0\Json\Contacts.json" />
+	  <Content Include="bin\Debug\net5.0\Json\Contacts1.json" />
 	  <Content Include="bin\Debug\net5.0\Json\ContactType.json" />
 	  <Content Include="bin\Debug\net5.0\Json\Countries.json" />
 	  <Content Include="bin\Debug\net5.0\Json\Customers.json" />
+	  <Content Include="bin\Debug\net5.0\Json\Orders.json" />
 	</ItemGroup>
 
 	<ItemGroup>

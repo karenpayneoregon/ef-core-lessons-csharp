@@ -61,9 +61,18 @@ namespace NorthWindCoreUnitTest_InMemory
             if (TestContext.TestName == nameof(LoadingRelations) || 
                 TestContext.TestName == nameof(LoadingTheSinkRelations) ||
                 TestContext.TestName == nameof(FindByPrimaryKey) ||
-                TestContext.TestName == nameof(CustomerCustomSort_City) || 
+                TestContext.TestName == nameof(CustomerCustomSort_City) ||
+                TestContext.TestName == nameof(CustomersRemoveRange) ||
                 TestContext.TestName == nameof(GetQueryString)) { LoadJoinedData(); }
 
+            if (TestContext.TestName == nameof(FilteredInclude))
+            {
+                //
+                Context.Customers.AddRange(JsonConvert.DeserializeObject<List<Customers>>(File.ReadAllText(customersJsonFileName))!);
+                Context.Orders.AddRange(JsonConvert.DeserializeObject<List<Orders>>(File.ReadAllText(ordersJsonFileName))!);
+
+                Context.SaveChanges();
+            }
             
             if (TestContext.TestName == nameof(ValidateCompanyNameIsNull) ||
                 TestContext.TestName == nameof(ValidateCompanyNameIsNull_1)) { customersValidator = new CustomersValidator(); }
@@ -125,8 +134,24 @@ namespace NorthWindCoreUnitTest_InMemory
         private static readonly string customersJsonFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Json", "Customers.json");
         private static readonly string contactTypeJsonFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Json", "ContactType.json");
         private static readonly string contactsJsonFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Json", "Contacts.json");
+        private static readonly string contactsJsonFileName1 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Json", "Contacts1.json");
         private static readonly string countriesJsonFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Json", "Countries.json");
         private static readonly string contactDevicesJsonFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Json", "ContactDevices.json");
+        
+        private static readonly string ordersJsonFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Json", "Orders.json");
+
+        public static async Task SerializeContactsAlternateToJson()
+        {
+            await using var context = new NorthwindContext();
+            List<Contacts> contacts = context.Contacts.ToList();
+            await File.WriteAllTextAsync(contactsJsonFileName1, JsonHelpers.Serialize<Contacts>(contacts));
+        }
+        public static async Task SerializeOrdersToJson()
+        {
+            await using var context = new NorthwindContext();
+            List<Orders> orders = context.Orders.ToList();
+            await File.WriteAllTextAsync(ordersJsonFileName, JsonHelpers.Serialize<Orders>(orders));
+        }
 
         public static async Task SerializeModelsToJson()
         {
@@ -328,8 +353,9 @@ namespace NorthWindCoreUnitTest_InMemory
                 */
                 context.Customers.AddRange(MockedInMemoryCustomers());
 
+                var test1 = context.Contacts.ToList();
 
-                context.Contacts.AddRange(MockedInMemoryContacts());
+                //context.Contacts.AddRange(MockedInMemoryContacts());
                 context.SaveChanges();
 
                 /*
@@ -373,7 +399,7 @@ namespace NorthWindCoreUnitTest_InMemory
                  */
                 return context.Customers.FirstOrDefault(cust => cust.CompanyName == companyName) is null;
             }
-            catch (Exception)
+            catch (Exception exception)
             {
                 return false;
             }

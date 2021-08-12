@@ -27,6 +27,7 @@ namespace NorthWindCoreLibrary.Models
         public string ShipPostalCode { get; set; }
         public string ShipCountry { get; set; }
 
+        
         public virtual Customers CustomerIdentifierNavigation { get; set; }
         public virtual Employees Employee { get; set; }
         public virtual Shippers ShipViaNavigation { get; set; }

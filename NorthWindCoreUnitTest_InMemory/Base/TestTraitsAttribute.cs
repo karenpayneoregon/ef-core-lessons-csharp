@@ -17,7 +17,8 @@ namespace NorthWindCoreUnitTest_InMemory.Base
         Utility,
         CustomSorting,
         AccessTrackedEntities,
-        FluentValidation
+        FluentValidation,
+        Filtering
     }
     /// <summary>
     /// Declarative class for using Trait enum about for traits on test method.
