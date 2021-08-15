@@ -8,7 +8,6 @@ using FluentValidation.Results;
 using FluentValidation.TestHelper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NorthWindCoreLibrary.Classes.Helpers;
 using NorthWindCoreLibrary.Data;
@@ -341,6 +340,56 @@ namespace NorthWindCoreUnitTest_InMemory
             Assert.IsTrue(context.Entry(customer).State == EntityState.Modified);
         }
 
+        /// <summary>
+        /// Example for a like condition for starts with and case insensitive.
+        /// </summary>
+        [TestMethod]
+        [TestTraits(Trait.LikeConditions)]
+        public void LikeStartwWith()
+        {
+            Context.Customers.AddRange(MockedInMemoryCustomers());
+            Context.SaveChanges();
+
+            List<Customers> results = Context.Customers
+                .Where(customer => EF.Functions.Like(customer.CompanyName, "an%"))
+                .ToList();
+            
+            
+            Assert.AreEqual(results.Count, 2);
+            
+
+        }
+
+        [TestMethod]
+        [TestTraits(Trait.LikeConditions)]
+        public void LikeEndWith()
+        {
+            Context.Customers.AddRange(MockedInMemoryCustomers());
+            Context.SaveChanges();
+
+            List<Customers> results = Context.Customers
+                .Where(customer => EF.Functions.Like(customer.CompanyName, "%S.A."))
+                .ToList();
+
+            Assert.AreEqual(results.Count, 1);
+        }
+
+        [TestMethod]
+        [TestTraits(Trait.LikeConditions)]
+        public void LikeContains()
+        {
+            Context.Customers.AddRange(MockedInMemoryCustomers());
+            Context.SaveChanges();
+
+            List<Customers> results = Context.Customers
+                .Where(customer => EF.Functions.Like(customer.CompanyName, "%Comidas%"))
+                .ToList();
+
+            Assert.AreEqual(results.Count, 2);
+
+
+        }
+
         [TestMethod]
         [TestTraits(Trait.AccessTrackedEntities)]
         public void ChangeCurrentValueByType()
@@ -383,6 +432,7 @@ namespace NorthWindCoreUnitTest_InMemory
 
             // Assert
             Assert.AreNotEqual(customer.ModifiedDate, expectedDate);
+            
 
         }
 

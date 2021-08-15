@@ -32,7 +32,8 @@ namespace NorthWindCoreUnitTest.Base
         /// <summary>
         /// Used to simulate warming up EF Core
         /// </summary>
-        Warming
+        Warming,
+        EFCore_Products_Local
     }
     /// <summary>
     /// Declarative class for using Trait enum about for traits on test method.
