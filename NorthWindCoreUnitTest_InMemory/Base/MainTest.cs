@@ -250,9 +250,6 @@ namespace NorthWindCoreUnitTest_InMemory
             Context.PhoneType.AddRange(phoneTypesList);
             
             var count = Context.SaveChanges();
-
-            //var customers = Context.Customers.ToList();
-            //var tep = Context;
         }
 
         #endregion

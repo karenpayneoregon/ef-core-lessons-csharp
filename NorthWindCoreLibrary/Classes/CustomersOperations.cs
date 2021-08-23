@@ -52,5 +52,16 @@ namespace NorthWindCoreLibrary.Classes
             return context.Customers.Select(Customers.Projection)
                 .FirstOrDefault(custEntity => custEntity.CustomerIdentifier == identifier);
         }
+
+        public static async Task<List<Customers>> GetCustomersAsync()
+        {
+
+            return await Task.Run(async () =>
+            {
+                await using var context = new NorthwindContext();
+                return await context.Customers
+                    .ToListAsync();
+            });
+        }
     }
 }

@@ -107,5 +107,42 @@ namespace NorthWindDataProviderLibrary.Classes
             }
 
         }
+
+        public static object[] CategoryIdentifierList(int count)
+        {
+            List<object> identifiers = new();
+
+            var selectStatement = $"SELECT TOP {count} CategoryID FROM Categories ORDER BY NEWID();";
+            using var cn = new SqlConnection($"Server={Server};Database={Database};Integrated Security=true");
+            using var cmd = new SqlCommand(selectStatement, cn);
+
+            cn.Open();
+            var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                identifiers.Add(reader.GetInt32(0));
+            }
+
+            return identifiers.ToArray();
+
+        }
+        public static object[] ProductIdentifierList(int count)
+        {
+            List<object> identifiers = new();
+
+            var selectStatement = $"SELECT TOP {count} p.ProductID FROM dbo.Products p ORDER BY NEWID();";
+            using var cn = new SqlConnection($"Server={Server};Database={Database};Integrated Security=true");
+            using var cmd = new SqlCommand(selectStatement, cn);
+
+            cn.Open();
+            var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                identifiers.Add(reader.GetInt32(0));
+            }
+
+            return identifiers.ToArray();
+
+        }
     }
 }

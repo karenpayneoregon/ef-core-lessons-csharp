@@ -8,6 +8,9 @@ using NorthWindCoreLibrary.Classes.North.Classes;
 
 namespace NorthWindCoreLibrary.Models
 {
+    /// <summary>
+    /// Customers model
+    /// </summary>
     public partial class Customers
     {
         public Customers()

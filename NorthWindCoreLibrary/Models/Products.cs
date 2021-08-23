@@ -25,6 +25,9 @@ namespace NorthWindCoreLibrary.Models
         public bool Discontinued { get; set; }
         public DateTime? DiscontinuedDate { get; set; }
 
+        public override string ToString() => ProductName;
+
+        
         public virtual Categories Category { get; set; }
         public virtual Suppliers Supplier { get; set; }
         public virtual ICollection<OrderDetails> OrderDetails { get; set; }

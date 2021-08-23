@@ -6,9 +6,7 @@ using NorthWindCoreLibrary.Models;
 
 namespace NorthWindCoreLibrary.Projections
 {
-    /// <summary>
-    /// A projection against a specific SELECT statement
-    /// </summary>
+
     public class CustomerItem
     {
         public int CustomerIdentifier { get; set; }
@@ -27,9 +25,6 @@ namespace NorthWindCoreLibrary.Projections
         public string ContactTitle { get; set; }
         public string OfficePhoneNumber { get; set; }
         public int PhoneTypeIdentifier { get; set; }
-        /// <summary>
-        /// Example for showing how to format a date time were the intent is to show the value only
-        /// </summary>
         public string LastChanged { get; set; }
         public override string ToString() => CompanyName;
 
@@ -48,9 +43,7 @@ namespace NorthWindCoreLibrary.Projections
                     CountryIdentifier = customers.CountryIdentifier,
                     Country = customers.CountryIdentifierNavigation.Name,
                     ContactTypeIdentifier = customers.CountryIdentifier,
-                    OfficePhoneNumber = customers.Contact.ContactDevices
-                            // hard coded to a specific phone type for office
-                        .FirstOrDefault(contactDevices => contactDevices.PhoneTypeIdentifier == 3).PhoneNumber,
+                    OfficePhoneNumber = customers.Contact.ContactDevices.FirstOrDefault(contactDevices => contactDevices.PhoneTypeIdentifier == 3).PhoneNumber,
                     LastChanged = customers.ModifiedDate.Value.ZeroPad()
                 };
             }

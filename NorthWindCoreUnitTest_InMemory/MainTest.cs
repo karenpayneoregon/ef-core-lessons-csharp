@@ -9,6 +9,7 @@ using FluentValidation.TestHelper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NorthWindCoreLibrary.Classes;
 using NorthWindCoreLibrary.Classes.Helpers;
 using NorthWindCoreLibrary.Data;
 using NorthWindCoreLibrary.LanguageExtensions;
@@ -23,7 +24,12 @@ namespace NorthWindCoreUnitTest_InMemory
     public partial class MainTest : TestBase
     {
 
-
+        [TestMethod]
+        [TestTraits(Trait.Warming)]
+        public void A_Warmup()
+        {
+            ContactOperations.Warmup();
+        }
         /// <summary>
         /// Mockup for adding a single <see cref="Customers"/>
         /// </summary>

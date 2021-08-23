@@ -77,6 +77,7 @@ namespace NorthWindCoreUnitTest
         /// </summary>
         /// <returns></returns>
         [TestMethod]
+        [TestTraits(Trait.TaskWhenAll)]
         public async Task WhenAll()
         {
             Task<List<CustomerItem>> customersTask1 = CustomersOperations.GetCustomersWithProjectionAsync();

@@ -5,6 +5,7 @@ namespace NorthWindCoreLibrary.Classes
 {
     public class BaseEntity
     {
+       
         [JsonIgnore]
         public DateTime? CreatedAt { get; set; }
         [JsonIgnore]

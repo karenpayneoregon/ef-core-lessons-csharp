@@ -24,6 +24,7 @@ namespace NorthWindCoreUnitTest.Base
         /// EF Core select operations for <see cref="Contacts"/>
         /// </summary>        
         EFCoreContactSelect,
+        EFCoreFind,
         EFCore_OrderByProducts,
         /// <summary>
         /// Configuring EF Core for multiple environments
@@ -33,7 +34,8 @@ namespace NorthWindCoreUnitTest.Base
         /// Used to simulate warming up EF Core
         /// </summary>
         Warming,
-        EFCore_Products_Local
+        EFCore_Products_Local,
+        TaskWhenAll
     }
     /// <summary>
     /// Declarative class for using Trait enum about for traits on test method.

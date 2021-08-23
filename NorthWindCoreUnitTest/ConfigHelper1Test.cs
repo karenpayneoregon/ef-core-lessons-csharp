@@ -24,7 +24,7 @@ namespace NorthWindCoreUnitTest
         /// </summary>
         [TestMethod]
         [TestTraits(Trait.EFConfiguration)]
-        public void Tester1()
+        public void TesterConnection()
         {
             using var context = new NorthContext();
             var data = context.Categories.ToList();

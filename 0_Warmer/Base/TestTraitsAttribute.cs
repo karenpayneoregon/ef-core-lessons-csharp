@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NorthWindCoreUnitTest_InMemory.Base
+namespace _0_Warmer.Base
 {
     public enum Trait
     {
@@ -11,15 +11,22 @@ namespace NorthWindCoreUnitTest_InMemory.Base
         /// Place holder 
         /// </summary>
         PlaceHolder,
-        JsonGeneration,
-        CRUD,
-        Relations,
-        Utility,
-        CustomSorting,
-        AccessTrackedEntities,
-        FluentValidation,
-        Filtering,
-        LikeConditions,
+        /// <summary>
+        /// Entity Framework Core test
+        /// </summary>
+        EntityFrameworkCore,
+        /// <summary>
+        /// Configuration test
+        /// </summary>
+        Configurations,
+        /// <summary>
+        /// Controller test
+        /// </summary>
+        Controller,
+        /// <summary>
+        /// Service test
+        /// </summary>
+        Services,
         Warming
     }
     /// <summary>
