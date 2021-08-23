@@ -16,9 +16,14 @@ using NorthWindDataProviderLibrary.Classes;
 namespace NorthWindCoreUnitTest
 {
     /// <summary>
+    /// 
     /// Notes
     ///    Random records is not so great for validation but had a moment and rolled with it :-)
     /// </summary>
+    /// <remarks>
+    /// Microsoft TechNet: Entity Framework Core Find all by primary key (C#)
+    /// https://social.technet.microsoft.com/wiki/contents/articles/53841.entity-framework-core-find-all-by-primary-key-c.aspx
+    /// </remarks>
     [TestClass]
     public partial class DbContextFindTest : TestBase
     {
