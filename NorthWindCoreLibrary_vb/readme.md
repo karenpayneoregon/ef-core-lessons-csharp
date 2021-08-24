@@ -1,5 +1,13 @@
 ﻿# About
 
+
+| Advance  |
+| :--- |
+| The [following repository](https://github.com/karenpayneoregon/efcore-vbnet-scaffolding) provides a more indepth code sample. See [article.md](http://example.com)|
+
+
+
+
 First run on EntityFrameworkCore.VisualBasic reverse engineering code first using Visual Studio 2019.
 
 Microsoft [GiHub repository](https://github.com/efcore/EFCore.VisualBasic)

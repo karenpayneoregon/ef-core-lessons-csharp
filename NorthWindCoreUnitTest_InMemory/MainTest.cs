@@ -505,7 +505,7 @@ namespace NorthWindCoreUnitTest_InMemory
 
         /// <summary>
         /// Out of place code sample
-        /// Written to answer a forum question
+        /// Written to answer a forum question which was accepted.
         /// https://stackoverflow.com/questions/68903607/sql-server-connection-freezes-after-a-few-hundred-loops/68905947#68905947
         /// </summary>
         [TestMethod]

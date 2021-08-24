@@ -7,6 +7,7 @@ namespace NorthWindCoreUnitTest_InMemory.DataProvider
 {
     public class SqlOperations1
     {
+
         /// <summary>
         /// Note for class this database only exists on Karen's laptop
         /// </summary>
