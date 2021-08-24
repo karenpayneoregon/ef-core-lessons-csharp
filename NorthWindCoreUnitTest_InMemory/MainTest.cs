@@ -17,6 +17,7 @@ using NorthWindCoreLibrary.Models;
 using NorthWindCoreUnitTest_InMemory.Base;
 using NorthWindCoreUnitTest_InMemory.DataProvider;
 using NorthWindCoreUnitTest_InMemory.ValidationClasses;
+using Customers = NorthWindCoreLibrary.Models.Customers;
 
 namespace NorthWindCoreUnitTest_InMemory
 {
@@ -31,7 +32,7 @@ namespace NorthWindCoreUnitTest_InMemory
             ContactOperations.Warmup();
         }
         /// <summary>
-        /// Mockup for adding a single <see cref="Customers"/>
+        /// Mockup for adding a single <see cref="NorthWindCoreLibrary.Models.Customers"/>
         /// </summary>
         [TestMethod]
         [TestTraits(Trait.CRUD)]
@@ -43,7 +44,7 @@ namespace NorthWindCoreUnitTest_InMemory
             {
                 CompanyName = "Karen's coffee shop",
                 Contact = SingleContact,
-                CountryIdentifier = 20, 
+                CountryIdentifier = 20,
                 CountryIdentifierNavigation = new Countries() { Name = "USA" }
             };
 
@@ -60,24 +61,24 @@ namespace NorthWindCoreUnitTest_InMemory
         [TestTraits(Trait.CRUD)]
         public void CustomersAddRange()
         {
-            
+
             using var context = new NorthwindContext(dbContextRemoveOptions);
 
             context.Customers.AddRange(MockedInMemoryCustomers());
             context.Contacts.AddRange(MockedInMemoryContacts());
-            
+
             context.SaveChanges();
 
             Assert.IsTrue(
-                context.Customers.Count() == 20 && 
+                context.Customers.Count() == 20 &&
                 context.Customers.ToList().All(x => x.Contact is not null)
             );
 
             var someCustomers = context.Customers.Take(3).ToList();
-            
+
             context.Customers.RemoveRange(someCustomers);
             context.SaveChanges();
-            Assert.AreEqual(context.Customers.Count(),17);
+            Assert.AreEqual(context.Customers.Count(), 17);
 
 
         }
@@ -88,7 +89,7 @@ namespace NorthWindCoreUnitTest_InMemory
             var someCustomers = Context.Customers.Take(3).ToList();
             Context.Customers.RemoveRange(someCustomers);
             Context.SaveChanges();
-            Assert.AreEqual(Context.Customers.Count(),88);
+            Assert.AreEqual(Context.Customers.Count(), 88);
         }
 
         /// <summary>
@@ -111,12 +112,12 @@ namespace NorthWindCoreUnitTest_InMemory
         {
             var germanyCountryIdentifier = 9;
             using var data = new NorthwindContext();
-            
+
             var customersList = data.Customers.AsNoTracking()
                 .Include(customer => customer.Orders)
                     .Where(x => x.CountryIdentifier == germanyCountryIdentifier)
                 .ToList();
-            
+
             Assert.IsTrue(customersList.Count == 11);
         }
 
@@ -130,9 +131,9 @@ namespace NorthWindCoreUnitTest_InMemory
         public void LoadingRelations()
         {
             int customerIdentifier = 3;
-            
+
             var expected = SqlOperations.GetCustomers(customerIdentifier);
-            
+
             /*
              * Note 
              */
@@ -147,7 +148,7 @@ namespace NorthWindCoreUnitTest_InMemory
             Assert.AreEqual(singleCustomer.Contact.LastName, expected.LastName);
             Assert.IsTrue(singleCustomer.Contact.ContactDevices.FirstOrDefault().PhoneTypeIdentifierNavigation.PhoneTypeDescription == "Office");
             Assert.AreEqual(singleCustomer.Contact.ContactDevices.FirstOrDefault().PhoneNumber, expected.ContactPhoneNumber);
-            
+
 
         }
 
@@ -176,7 +177,7 @@ namespace NorthWindCoreUnitTest_InMemory
         [TestTraits(Trait.CustomSorting)]
         public void CustomerCustomSort_City()
         {
-            
+
             List<Customers> customersList = Context.Customers
                 .Include(customer => customer.CountryIdentifierNavigation)
                 .Include(customer => customer.Contact)
@@ -187,7 +188,7 @@ namespace NorthWindCoreUnitTest_InMemory
 
             Assert.IsTrue(customersList.FirstOrDefault().City == "Warszawa");
             Assert.IsTrue(customersList.LastOrDefault().City == "Berlin");
-            
+
 
         }
 
@@ -216,16 +217,16 @@ namespace NorthWindCoreUnitTest_InMemory
                 .Include(customer => customer.Contact)
                 .ThenInclude(contact => contact.ContactDevices)
                 .ThenInclude(x => x.PhoneTypeIdentifierNavigation).ToQueryString();
-            
+
             Debug.WriteLine(query);
-            
+
         }
 
         [TestMethod]
         [TestTraits(Trait.CRUD)]
         public void RemoveSingleCustomer()
         {
-            
+
             Assert.IsTrue(DeleteCustomer());
         }
 
@@ -257,11 +258,11 @@ namespace NorthWindCoreUnitTest_InMemory
             {
                 FirstName = firstName
             };
-            
+
             Contacts contact1 = new Contacts()
             {
-                ContactId = 1, 
-                FirstName = "Bick", 
+                ContactId = 1,
+                FirstName = "Bick",
                 LastName = "VU"
             };
 
@@ -277,9 +278,9 @@ namespace NorthWindCoreUnitTest_InMemory
 
             // change first name
             contacts.FirstName = changedFirstName;
-            
+
             // validate first name changed
-            Assert.AreEqual(contacts.FirstName, changedFirstName );
+            Assert.AreEqual(contacts.FirstName, changedFirstName);
 
             // get original first name
             var originalFirstName = Context.Entry(SingleContact)
@@ -293,13 +294,13 @@ namespace NorthWindCoreUnitTest_InMemory
              * Let's clone the  contact (without as Contacts clonedContact is type object but we know better)
              */
             var clonedContact = Context.Entry(contacts).GetDatabaseValues().ToObject() as Contacts;
-            
+
             /*
              * In short set all properties of contact1 to contact object
              */
             Context.Entry(contacts).CurrentValues.SetValues(contact1);
             Assert.IsTrue(contacts.LastName == "VU");
-            
+
             /*
              * Assert the clone contact last name is empty
              */
@@ -359,10 +360,10 @@ namespace NorthWindCoreUnitTest_InMemory
             List<Customers> results = Context.Customers
                 .Where(customer => EF.Functions.Like(customer.CompanyName, "an%"))
                 .ToList();
-            
-            
+
+
             Assert.AreEqual(results.Count, 2);
-            
+
 
         }
 
@@ -438,7 +439,7 @@ namespace NorthWindCoreUnitTest_InMemory
 
             // Assert
             Assert.AreNotEqual(customer.ModifiedDate, expectedDate);
-            
+
 
         }
 
@@ -460,7 +461,7 @@ namespace NorthWindCoreUnitTest_InMemory
             result.ShouldHaveValidationErrorFor(customer => customer.ModifiedDate);
 
         }
-        
+
         /// <summary>
         /// Inspect violations
         /// </summary>
@@ -501,6 +502,27 @@ namespace NorthWindCoreUnitTest_InMemory
         }
 
         #endregion
+
+        /// <summary>
+        /// Out of place code sample
+        /// Written to answer a forum question
+        /// https://stackoverflow.com/questions/68903607/sql-server-connection-freezes-after-a-few-hundred-loops/68905947#68905947
+        /// </summary>
+        [TestMethod]
+        public void LargeLike()
+        {
+            var (contracts, exception) = SqlOperations1.ReadDBView("%nia");
+
+            if (contracts.Count > 0 && exception is null)
+            {
+                Debug.WriteLine(contracts.Count);
+            }
+            else
+            {
+                Debug.WriteLine(exception is not null ? exception.Message : "No matches");
+            }
+        }
+
 
 
     }
