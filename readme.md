@@ -24,6 +24,12 @@ Working with `NorthWind` database ([script](https://gist.github.com/karenpayneor
 
 :heavy_check_mark: In-memory unit testing EF Core 5 (really part 6)
 
+| Note  |
+| :--- |
+| There are several different ways to perform testing, see [Testing code that uses EF Core](https://docs.microsoft.com/en-us/ef/core/testing/) |
+| :warning: The EF in-memory database often behaves differently than relational databases. Only use the EF in-memory database after fully understanding the issues and trade-offs involved, as discussed in [Testing code that uses EF Core](https://docs.microsoft.com/en-us/ef/core/testing/).|
+
+
 :heavy_check_mark: [FindAllAsync](https://github.com/karenpayneoregon/ef-core-lessons-csharp/blob/Part5_InMemory/NorthWindCoreLibrary/LanguageExtensions/EntityHelpers.cs#L20)
 
 | Multiple key find  |
