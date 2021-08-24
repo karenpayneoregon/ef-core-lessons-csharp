@@ -18,11 +18,11 @@ Grouping is one of the most powerful capabilities of LINQ. The following example
 
 Working with `NorthWind` database ([script](https://gist.github.com/karenpayneoregon/40a6e1158ff29819286a39b7f1ed1ae8) found here)
 
-:heavy_check_mark: One property GroupBy
+:heavy_check_mark: One property [GroupBy](https://docs.microsoft.com/en-us/dotnet/api/system.linq.enumerable.groupby?view=net-5.0)
 
-:heavy_check_mark: Complex multiple property `GroupBy` with `Projections`
+:heavy_check_mark: Complex multiple property [GroupBy](https://docs.microsoft.com/en-us/dotnet/api/system.linq.enumerable.groupby?view=net-5.0) with [Projections](https://github.com/karenpayneoregon/ef-core-lessons-csharp/tree/Part5_InMemory/NorthWindCoreLibrary/Projections)
 
-:heavy_check_mark: In-memory unit testing EF Core 5 (really part 6)
+:heavy_check_mark: In-memory unit testing EF Core 5
 
 | Note  |
 | :--- |
