@@ -24,6 +24,13 @@ Working with `NorthWind` database ([script](https://gist.github.com/karenpayneor
 
 :heavy_check_mark: In-memory unit testing EF Core 5 (really part 6)
 
+:heavy_check_mark: [FindAllAsync](https://github.com/karenpayneoregon/ef-core-lessons-csharp/blob/Part5_InMemory/NorthWindCoreLibrary/LanguageExtensions/EntityHelpers.cs#L20)
+
+| Multiple key find  |
+| :--- |
+| To find a record by primary key, many developers will use .[Where](https://docs.microsoft.com/en-us/dotnet/api/system.linq.enumerable.where?view=net-5.0) or .[FirstOrDefault](https://docs.microsoft.com/en-us/dotnet/api/system.linq.enumerable.firstordefault?view=net-5.0). Better to use .[Find](https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.dbcontext.find?view=efcore-5.0) while to find multiple records [FindAllAsync](FindAllAsync) is a better choice. |
+| **Find**</br> an entity with the given primary key values. If an entity with the given primary key values is being tracked by the context, then it is returned immediately without making a request to the database. Otherwise, a query is made to the database for an entity with the given primary key values and this entity, if found, is attached to the context and returned. If no entity is found, then null is returned. |
+
 :heavy_check_mark: [Interceptors](https://docs.microsoft.com/en-us/ef/core/logging-events-diagnostics/interceptors)
 
 | Interceptors  |
