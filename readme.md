@@ -53,3 +53,7 @@ Working with `NorthWind` database ([script](https://gist.github.com/karenpayneor
 - The complex example is one that many developer struggle with which is why it's included.
 
 :yellow_circle: Extra - DBContext connection via environment variable
+
+## Unit testing
+
+![img](assets/oops.png)
