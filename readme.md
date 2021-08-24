@@ -24,6 +24,16 @@ Working with `NorthWind` database ([script](https://gist.github.com/karenpayneor
 
 :heavy_check_mark: In-memory unit testing EF Core 5 (really part 6)
 
+:heavy_check_mark: [Interceptors](https://docs.microsoft.com/en-us/ef/core/logging-events-diagnostics/interceptors)
+
+| Interceptors  |
+| :--- |
+| Entity Framework Core (EF Core) interceptors enable interception, modification, and/or suppression of EF Core operations. This includes low-level database operations such as executing a command, as well as higher-level operations, such as calls to SaveChanges.|
+| Interceptors are different from logging and diagnostics in that they allow modification or suppression of the operation being intercepted. Simple logging or Microsoft.Extensions.Logging are better choices for logging.|
+| Interceptors are registered per DbContext instance when the context is configured. Use a diagnostic listener to get the same information but for all DbContext instances in the process.|
+| |
+
+
 ## Notes
 
 - There are many different types of group-by operations to consider, here are a few.
