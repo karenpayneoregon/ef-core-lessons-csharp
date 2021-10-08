@@ -25,6 +25,7 @@ namespace NorthWindCoreUnitTest_InMemory
     public partial class MainTest : TestBase
     {
 
+
         [TestMethod]
         [TestTraits(Trait.Warming)]
         public void A_Warmup()
@@ -182,7 +183,7 @@ namespace NorthWindCoreUnitTest_InMemory
                 .Include(customer => customer.CountryIdentifierNavigation)
                 .Include(customer => customer.Contact)
                 .ThenInclude(contact => contact.ContactDevices)
-                .ThenInclude(x => x.PhoneTypeIdentifierNavigation)
+                .ThenInclude(devices => devices.PhoneTypeIdentifierNavigation)
                 .ToList()
                 .SortByPropertyName("CompanyName", SortDirection.Descending);
 
@@ -216,7 +217,7 @@ namespace NorthWindCoreUnitTest_InMemory
                 .Include(customer => customer.CountryIdentifierNavigation)
                 .Include(customer => customer.Contact)
                 .ThenInclude(contact => contact.ContactDevices)
-                .ThenInclude(x => x.PhoneTypeIdentifierNavigation).ToQueryString();
+                .ThenInclude(devices => devices.PhoneTypeIdentifierNavigation).ToQueryString();
 
             Debug.WriteLine(query);
 

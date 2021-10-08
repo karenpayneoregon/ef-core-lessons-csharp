@@ -6,7 +6,9 @@ using NorthWindCoreLibrary.Models;
 
 namespace NorthWindCoreLibrary.Projections
 {
-
+    /// <summary>
+    /// This description is shown in IntelliSense  
+    /// </summary>
     public class CustomerItem
     {
         public int CustomerIdentifier { get; set; }
@@ -27,6 +29,7 @@ namespace NorthWindCoreLibrary.Projections
         public int PhoneTypeIdentifier { get; set; }
         public string LastChanged { get; set; }
         public override string ToString() => CompanyName;
+
 
         public static Expression<Func<Customers, CustomerItem>> Projection
         {

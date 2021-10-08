@@ -27,6 +27,7 @@ namespace NorthWindCoreLibrary.Classes
             });
         }
 
+        
         #region Not part of part 4 lesson
         /// <summary>
         /// Custom projection for teaching sorting by property name as a string

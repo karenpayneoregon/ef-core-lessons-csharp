@@ -35,7 +35,8 @@ namespace NorthWindCoreUnitTest.Base
         /// </summary>
         Warming,
         EFCore_Products_Local,
-        TaskWhenAll
+        TaskWhenAll,
+        Cool
     }
     /// <summary>
     /// Declarative class for using Trait enum about for traits on test method.

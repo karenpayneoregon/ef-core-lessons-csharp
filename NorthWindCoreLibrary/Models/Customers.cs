@@ -76,6 +76,9 @@ namespace NorthWindCoreLibrary.Models
             return $"{CustomerIdentifier} - {CompanyName}";
         }
 
+        /// <summary>
+        /// Read Customers, spit out CustomerEntity
+        /// </summary>
         public static Expression<Func<Customers, CustomerEntity>> Projection
         {
 

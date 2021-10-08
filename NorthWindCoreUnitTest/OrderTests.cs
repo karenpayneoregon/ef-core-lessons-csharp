@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NorthWindCoreLibrary.Classes;
 using NorthWindCoreLibrary.Models;
@@ -15,6 +16,7 @@ namespace NorthWindCoreUnitTest
     [TestClass]
     public partial class OrderTests
     {
+        
         /// <summary>
         /// 
         /// </summary>
@@ -51,6 +53,41 @@ namespace NorthWindCoreUnitTest
 
             Assert.AreEqual(employee.Count(), dictionary.FirstOrDefault().Value);
 
+        }
+
+        [TestMethod]
+        [TestTraits(Trait.GroupingEntityFramework)]
+        public async Task GroupList()
+        {
+            List<Employees> employeeList = await OrderOperations.GetEmployeesTask();
+
+            var results = employeeList.GroupBy(employee => employee.EmployeeId)
+                .Select(grouping => new EmpItem
+                {
+                    Id = grouping.Key, Count = grouping.Count(),
+                    Employee = grouping.FirstOrDefault()
+                })
+                .OrderByDescending(empItem => empItem.Count)
+                .ToList();
+
+
+            foreach (EmpItem item in results)
+            {
+                Debug.WriteLine($"{item.Count,4:D3} {item.Employee.EmployeeId,4:D3} {item.Employee.LastName}");
+            }
+
+        }
+
+        /// <summary>
+        /// Demonstrates getting model definitions
+        /// </summary>
+        [TestMethod]
+        [TestTraits(Trait.Cool)]
+        public void ShowModel()
+        {
+            using var context = new NorthWindCoreLibrary.Data.NorthwindContext();
+            var test = context.Model.ToDebugString(0);
+            Debug.WriteLine(test);
         }
 
     }
